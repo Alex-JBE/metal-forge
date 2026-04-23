@@ -38,8 +38,8 @@ export default function SubgenreSelector({
     <div className="flex flex-col gap-1.5">
       <label
         htmlFor="subgenre"
-        className="font-cinzel uppercase text-[#555]"
-        style={{ fontSize: "11px", letterSpacing: "0.2em" }}
+        className="font-cinzel uppercase"
+        style={{ fontSize: "11px", letterSpacing: "0.2em", color: "#aaaaaa" }}
       >
         Subgenre
       </label>
@@ -48,18 +48,19 @@ export default function SubgenreSelector({
         value={value}
         onChange={(e) => onChange(e.target.value)}
         disabled={disabled}
-        className="w-full px-3 py-2.5 text-sm text-[#c0c0c0] bg-transparent focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed"
+        className="w-full px-3 py-2.5 text-sm focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed"
         style={{
-          border: "1px solid rgba(100,0,0,0.25)",
+          background: "#1a1a1a",
+          color: "#ffffff",
+          border: "1px solid rgba(255,255,255,0.2)",
           borderRadius: "2px",
-          background: "rgba(0,0,0,0.4)",
         }}
       >
-        <option value="" disabled className="bg-[#0a0a0a]">
+        <option value="" disabled style={{ background: "#1a1a1a", color: "#888" }}>
           — select a subgenre —
         </option>
         {METAL_SUBGENRES.map((genre) => (
-          <option key={genre.value} value={genre.value} className="bg-[#0a0a0a]">
+          <option key={genre.value} value={genre.value} style={{ background: "#1a1a1a", color: "#ffffff" }}>
             {genre.label}
           </option>
         ))}

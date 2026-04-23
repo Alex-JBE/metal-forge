@@ -3,7 +3,7 @@ const QUOTE_STYLE: React.CSSProperties = {
   fontFamily: "var(--font-crimson-text), Georgia, serif",
   fontStyle: "italic",
   fontSize: "11px",
-  color: "rgba(255,255,255,0.5)",
+  color: "rgba(255,255,255,0.7)",
   lineHeight: "1.65",
 };
 const AUTHOR_STYLE: React.CSSProperties = {

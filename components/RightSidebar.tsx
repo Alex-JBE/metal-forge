@@ -9,17 +9,6 @@ const ALBUMS = [
   { band: "Frozen Soul", title: "Glacial Domination", year: "2023", isNew: false },
 ];
 
-const SECTION_TITLE: React.CSSProperties = {
-  fontFamily: "var(--font-cinzel), serif",
-  fontSize: "7px",
-  letterSpacing: "0.2em",
-  color: "rgba(255,255,255,0.4)",
-  textTransform: "uppercase",
-  paddingBottom: "8px",
-  marginBottom: "10px",
-  borderBottom: "1px solid rgba(204,0,0,0.2)",
-};
-
 function AlbumThumb({ initial }: { initial: string }) {
   return (
     <div
@@ -28,7 +17,7 @@ function AlbumThumb({ initial }: { initial: string }) {
         height: "44px",
         flexShrink: 0,
         background: "linear-gradient(135deg, #1a0000 0%, #2a0000 100%)",
-        border: "1px solid rgba(204,0,0,0.2)",
+        border: "1px solid rgba(204,0,0,0.25)",
         borderRadius: "2px",
         display: "flex",
         alignItems: "center",
@@ -39,7 +28,7 @@ function AlbumThumb({ initial }: { initial: string }) {
         style={{
           fontFamily: "var(--font-metal-mania), serif",
           fontSize: "16px",
-          color: "rgba(204,0,0,0.5)",
+          color: "rgba(204,0,0,0.7)",
         }}
       >
         {initial}
@@ -52,7 +41,7 @@ export default function RightSidebar() {
   return (
     <aside
       style={{
-        background: "rgba(6,6,6,0.98)",
+        background: "#0d0d0d",
         borderLeft: "1px solid rgba(204,0,0,0.15)",
         padding: "12px",
         display: "flex",
@@ -61,7 +50,21 @@ export default function RightSidebar() {
         zIndex: 10,
       }}
     >
-      <p style={SECTION_TITLE}>New Releases · deathgrind.club</p>
+      {/* Section title */}
+      <p
+        style={{
+          fontFamily: "var(--font-cinzel), serif",
+          fontSize: "7px",
+          letterSpacing: "0.2em",
+          color: "#888888",
+          textTransform: "uppercase",
+          paddingBottom: "8px",
+          marginBottom: "10px",
+          borderBottom: "1px solid rgba(204,0,0,0.2)",
+        }}
+      >
+        New Releases · deathgrind.club
+      </p>
 
       <div style={{ flex: 1 }}>
         {ALBUMS.map((album) => (
@@ -80,9 +83,9 @@ export default function RightSidebar() {
                 <span
                   style={{
                     fontFamily: "var(--font-cinzel), serif",
-                    fontSize: "8px",
-                    color: "#888",
-                    letterSpacing: "0.05em",
+                    fontSize: "11px",
+                    fontWeight: "600",
+                    color: "#ffffff",
                     overflow: "hidden",
                     textOverflow: "ellipsis",
                     whiteSpace: "nowrap",
@@ -95,10 +98,10 @@ export default function RightSidebar() {
                   <span
                     style={{
                       fontFamily: "var(--font-cinzel), serif",
-                      fontSize: "6px",
+                      fontSize: "7px",
                       letterSpacing: "0.1em",
                       color: "#cc0000",
-                      border: "1px solid rgba(204,0,0,0.4)",
+                      border: "1px solid rgba(204,0,0,0.5)",
                       padding: "1px 3px",
                       flexShrink: 0,
                     }}
@@ -112,7 +115,7 @@ export default function RightSidebar() {
                   fontFamily: "var(--font-crimson-text), Georgia, serif",
                   fontStyle: "italic",
                   fontSize: "10px",
-                  color: "rgba(255,255,255,0.35)",
+                  color: "#888888",
                   display: "block",
                   overflow: "hidden",
                   textOverflow: "ellipsis",
@@ -124,8 +127,8 @@ export default function RightSidebar() {
               <span
                 style={{
                   fontFamily: "var(--font-cinzel), serif",
-                  fontSize: "6px",
-                  color: "rgba(204,0,0,0.35)",
+                  fontSize: "8px",
+                  color: "#cc0000",
                   letterSpacing: "0.1em",
                 }}
               >
@@ -143,7 +146,7 @@ export default function RightSidebar() {
             fontFamily: "var(--font-crimson-text), Georgia, serif",
             fontStyle: "italic",
             fontSize: "10px",
-            color: "rgba(255,255,255,0.3)",
+            color: "rgba(255,255,255,0.5)",
             lineHeight: "1.6",
           }}
         >
@@ -152,8 +155,8 @@ export default function RightSidebar() {
         <p
           style={{
             fontFamily: "var(--font-cinzel), serif",
-            fontSize: "6px",
-            color: "rgba(204,0,0,0.4)",
+            fontSize: "7px",
+            color: "#cc0000",
             letterSpacing: "0.15em",
             marginTop: "4px",
             textTransform: "uppercase",

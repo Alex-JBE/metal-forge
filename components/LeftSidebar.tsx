@@ -49,22 +49,11 @@ const RESOURCES = [
   },
 ];
 
-const SECTION_TITLE: React.CSSProperties = {
-  fontFamily: "var(--font-cinzel), serif",
-  fontSize: "7px",
-  letterSpacing: "0.2em",
-  color: "rgba(255,255,255,0.4)",
-  textTransform: "uppercase",
-  paddingBottom: "8px",
-  marginBottom: "10px",
-  borderBottom: "1px solid rgba(204,0,0,0.2)",
-};
-
 export default function LeftSidebar() {
   return (
     <aside
       style={{
-        background: "rgba(6,6,6,0.98)",
+        background: "#0d0d0d",
         borderRight: "1px solid rgba(204,0,0,0.15)",
         padding: "12px",
         display: "flex",
@@ -73,7 +62,21 @@ export default function LeftSidebar() {
         zIndex: 10,
       }}
     >
-      <p style={SECTION_TITLE}>Metal Resources</p>
+      {/* Section title */}
+      <p
+        style={{
+          fontFamily: "var(--font-cinzel), serif",
+          fontSize: "7px",
+          letterSpacing: "0.2em",
+          color: "#888888",
+          textTransform: "uppercase",
+          paddingBottom: "8px",
+          marginBottom: "10px",
+          borderBottom: "1px solid rgba(204,0,0,0.2)",
+        }}
+      >
+        Metal Resources
+      </p>
 
       <div style={{ flex: 1 }}>
         {RESOURCES.map((r) => (
@@ -87,9 +90,9 @@ export default function LeftSidebar() {
             <span
               style={{
                 fontFamily: "var(--font-cinzel), serif",
-                fontSize: "6px",
-                letterSpacing: "0.15em",
-                color: "rgba(204,0,0,0.5)",
+                fontSize: "9px",
+                letterSpacing: "0.12em",
+                color: "#cc0000",
                 textTransform: "uppercase",
                 display: "block",
                 marginBottom: "2px",
@@ -100,22 +103,21 @@ export default function LeftSidebar() {
             <span
               style={{
                 fontFamily: "var(--font-cinzel), serif",
-                fontSize: "9px",
-                color: "#888",
+                fontSize: "11px",
+                fontWeight: "600",
+                color: "#ffffff",
                 display: "block",
                 marginBottom: "1px",
-                letterSpacing: "0.05em",
-                transition: "color 0.2s",
+                letterSpacing: "0.03em",
               }}
-              className="sidebar-link-name"
             >
               {r.name}
             </span>
             <span
               style={{
                 fontFamily: "var(--font-crimson-text), Georgia, serif",
-                fontSize: "10px",
-                color: "rgba(255,255,255,0.25)",
+                fontSize: "9px",
+                color: "#888888",
                 display: "block",
               }}
             >
@@ -132,7 +134,7 @@ export default function LeftSidebar() {
             fontFamily: "var(--font-crimson-text), Georgia, serif",
             fontStyle: "italic",
             fontSize: "10px",
-            color: "rgba(255,255,255,0.3)",
+            color: "rgba(255,255,255,0.5)",
             lineHeight: "1.6",
           }}
         >
@@ -141,8 +143,8 @@ export default function LeftSidebar() {
         <p
           style={{
             fontFamily: "var(--font-cinzel), serif",
-            fontSize: "6px",
-            color: "rgba(204,0,0,0.4)",
+            fontSize: "7px",
+            color: "#cc0000",
             letterSpacing: "0.15em",
             marginTop: "4px",
             textTransform: "uppercase",

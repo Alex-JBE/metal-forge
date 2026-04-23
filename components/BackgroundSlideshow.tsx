@@ -36,7 +36,7 @@ export default function BackgroundSlideshow() {
           }}
         />
       ))}
-      <div className="absolute inset-0" style={{ background: "rgba(0,0,0,0.82)", zIndex: 1 }} />
+      <div className="absolute inset-0" style={{ background: "rgba(0,0,0,0.65)", zIndex: 1 }} />
     </div>
   );
 }
