@@ -19,16 +19,27 @@ export async function POST(req: NextRequest) {
 
   const userMessage = buildUserMessage({ subgenre, type, prompt, language });
 
+  const LANG_INSTRUCTIONS: Record<string, string> = {
+    de: "Generiere alle Inhalte auf Deutsch. Verwende authentische deutsche Metallsprache mit korrekter Grammatik und passender stilistischer Intensität.",
+    ru: "Генерируй весь контент на русском языке. Используй аутентичный русский металлический стиль с правильной грамматикой, падежами и богатой образностью.",
+  };
+
+  const systemBlocks: Anthropic.Messages.TextBlockParam[] = [
+    {
+      type: "text",
+      text: METAL_SYSTEM_PROMPT,
+      cache_control: { type: "ephemeral" },
+    },
+  ];
+
+  if (language !== "en" && LANG_INSTRUCTIONS[language]) {
+    systemBlocks.push({ type: "text", text: LANG_INSTRUCTIONS[language] });
+  }
+
   const stream = await client.messages.stream({
     model: "claude-sonnet-4-6",
     max_tokens: 2048,
-    system: [
-      {
-        type: "text",
-        text: METAL_SYSTEM_PROMPT,
-        cache_control: { type: "ephemeral" },
-      },
-    ],
+    system: systemBlocks,
     messages: [{ role: "user", content: userMessage }],
   });
 
