@@ -357,8 +357,7 @@ export default function Generator() {
               <CopyButton
                 text={output}
                 label="Copy"
-                className="font-cinzel uppercase hover:text-white transition-colors"
-                style={{ fontSize: "9px", letterSpacing: "0.15em", color: "#666" } as React.CSSProperties}
+                className="font-cinzel uppercase hover:text-white transition-colors text-[9px] tracking-[0.15em] text-[#666]"
               />
             )}
           </div>
