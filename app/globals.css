@@ -1,26 +1,156 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-metal-mania: var(--font-metal-mania);
+  --font-share-tech-mono: var(--font-share-tech-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
+/* ─── Base ─────────────────────────────────────────── */
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: #0a0a0a;
+  color: #c0c0c0;
 }
+
+/* ─── Noise overlay ─────────────────────────────────── */
+
+.noise-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 50;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 300px 300px;
+}
+
+/* ─── Fonts ─────────────────────────────────────────── */
+
+.font-metal-mania {
+  font-family: var(--font-metal-mania), "Impact", serif;
+}
+
+.font-share-tech-mono {
+  font-family: var(--font-share-tech-mono), "Courier New", monospace;
+}
+
+/* ─── Glitch title ──────────────────────────────────── */
+
+.glitch {
+  position: relative;
+  animation: glitch-main 4s infinite;
+}
+
+.glitch::before,
+.glitch::after {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.glitch::before {
+  color: #ff0000;
+  animation: glitch-before 4s infinite;
+  clip-path: polygon(0 0, 100% 0, 100% 35%, 0 35%);
+}
+
+.glitch::after {
+  color: #00ffff;
+  animation: glitch-after 4s infinite;
+  clip-path: polygon(0 65%, 100% 65%, 100% 100%, 0 100%);
+}
+
+@keyframes glitch-main {
+  0%, 88%, 100%  { transform: translate(0); }
+  90%            { transform: translate(-2px, 1px); }
+  92%            { transform: translate(2px, -1px); }
+  94%            { transform: translate(-1px, 2px); }
+  96%            { transform: translate(1px, -2px); }
+}
+
+@keyframes glitch-before {
+  0%, 88%, 100%  { transform: translate(0); opacity: 0; }
+  90%            { transform: translate(-4px, 0); opacity: 0.8; }
+  93%            { transform: translate(3px, 1px); opacity: 0.6; }
+  96%            { transform: translate(-2px, -1px); opacity: 0; }
+}
+
+@keyframes glitch-after {
+  0%, 88%, 100%  { transform: translate(0); opacity: 0; }
+  91%            { transform: translate(4px, 0); opacity: 0.7; }
+  94%            { transform: translate(-3px, -1px); opacity: 0.5; }
+  97%            { transform: translate(2px, 1px); opacity: 0; }
+}
+
+/* ─── Forge button ──────────────────────────────────── */
+
+.forge-btn {
+  position: relative;
+  overflow: hidden;
+  animation: pulse-glow 2.5s ease-in-out infinite;
+}
+
+.forge-btn::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.12) 50%,
+    transparent 100%
+  );
+  transform: translateX(-100%);
+  animation: forge-sweep 2.5s ease-in-out infinite;
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 8px rgba(220, 0, 0, 0.4); }
+  50%       { box-shadow: 0 0 20px rgba(220, 0, 0, 0.7), 0 0 40px rgba(220, 0, 0, 0.2); }
+}
+
+@keyframes forge-sweep {
+  0%   { transform: translateX(-100%); }
+  60%  { transform: translateX(100%); }
+  100% { transform: translateX(100%); }
+}
+
+/* ─── Skeleton loader ───────────────────────────────── */
+
+.skeleton-line {
+  border-radius: 4px;
+  background: linear-gradient(
+    90deg,
+    #1a1a1a 25%,
+    #2a2a2a 50%,
+    #1a1a1a 75%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.5s infinite;
+}
+
+@keyframes skeleton-shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ─── Fade-in on mount ──────────────────────────────── */
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-up {
+  animation: fade-up 0.5s ease both;
+}
+
+/* ─── Scrollbar ─────────────────────────────────────── */
+
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: #0a0a0a; }
+::-webkit-scrollbar-thumb { background: #3a0000; border-radius: 2px; }
