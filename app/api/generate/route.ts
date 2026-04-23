@@ -1,17 +1,14 @@
 import Anthropic from "@anthropic-ai/sdk";
 import { NextRequest } from "next/server";
+import fs from "fs";
+import path from "path";
 
 const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 
-const METAL_SYSTEM_PROMPT = `You are an expert metal music content creator with deep knowledge of all metal subgenres — from classic heavy metal and thrash to black metal, doom, death metal, metalcore, deathcore, djent, progressive metal, and beyond.
-
-You craft authentic, genre-appropriate content that captures the exact atmosphere, lyrical themes, and stylistic nuances of each subgenre. Your writing is evocative, powerful, and true to metal culture.
-
-Guidelines by content type:
-- LYRICS: Follow traditional verse/chorus/bridge structure unless otherwise specified. Use genre-appropriate imagery — darkness, war, mythology, nature, existentialism, horror, politics, or philosophy depending on subgenre.
-- BIO: Write in third person, emphasize the band's sound, influences, and ethos. Make it sound like a press bio.
-- PRESS_RELEASE: Formal tone announcing new music, tours, or milestones.
-- CONCEPT: Elaborate on a thematic idea or album concept with depth and lore.`;
+const METAL_SYSTEM_PROMPT = fs.readFileSync(
+  path.join(process.cwd(), "lib", "skill.md"),
+  "utf-8",
+);
 
 export async function POST(req: NextRequest) {
   const { subgenre, type = "lyrics", prompt, language = "en" } = await req.json();
