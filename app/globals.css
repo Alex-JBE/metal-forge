@@ -1,89 +1,47 @@
 @import "tailwindcss";
 
 @theme inline {
-  --font-metal-mania: var(--font-metal-mania);
+  --font-cinzel-decorative: var(--font-cinzel-decorative);
+  --font-cinzel: var(--font-cinzel);
+  --font-crimson-text: var(--font-crimson-text);
   --font-share-tech-mono: var(--font-share-tech-mono);
 }
 
 /* ─── Base ─────────────────────────────────────────── */
 
 body {
-  background: #0a0a0a;
+  background: #000000;
   color: #c0c0c0;
 }
 
-/* ─── Noise overlay ─────────────────────────────────── */
+/* ─── Font utilities ────────────────────────────────── */
 
-.noise-overlay {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 50;
-  opacity: 0.035;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
-  background-repeat: repeat;
-  background-size: 300px 300px;
+.font-cinzel-decorative {
+  font-family: var(--font-cinzel-decorative), "Palatino Linotype", serif;
 }
 
-/* ─── Fonts ─────────────────────────────────────────── */
+.font-cinzel {
+  font-family: var(--font-cinzel), "Palatino Linotype", serif;
+}
 
-.font-metal-mania {
-  font-family: var(--font-metal-mania), "Impact", serif;
+.font-crimson-text {
+  font-family: var(--font-crimson-text), Georgia, serif;
 }
 
 .font-share-tech-mono {
   font-family: var(--font-share-tech-mono), "Courier New", monospace;
 }
 
-/* ─── Glitch title ──────────────────────────────────── */
+/* ─── Fog drift ─────────────────────────────────────── */
 
-.glitch {
-  position: relative;
-  animation: glitch-main 4s infinite;
+@keyframes drift1 {
+  from { transform: translateX(-10%) translateY(0); }
+  to   { transform: translateX(10%) translateY(-5%); }
 }
 
-.glitch::before,
-.glitch::after {
-  content: attr(data-text);
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.glitch::before {
-  color: #ff0000;
-  animation: glitch-before 4s infinite;
-  clip-path: polygon(0 0, 100% 0, 100% 35%, 0 35%);
-}
-
-.glitch::after {
-  color: #00ffff;
-  animation: glitch-after 4s infinite;
-  clip-path: polygon(0 65%, 100% 65%, 100% 100%, 0 100%);
-}
-
-@keyframes glitch-main {
-  0%, 88%, 100%  { transform: translate(0); }
-  90%            { transform: translate(-2px, 1px); }
-  92%            { transform: translate(2px, -1px); }
-  94%            { transform: translate(-1px, 2px); }
-  96%            { transform: translate(1px, -2px); }
-}
-
-@keyframes glitch-before {
-  0%, 88%, 100%  { transform: translate(0); opacity: 0; }
-  90%            { transform: translate(-4px, 0); opacity: 0.8; }
-  93%            { transform: translate(3px, 1px); opacity: 0.6; }
-  96%            { transform: translate(-2px, -1px); opacity: 0; }
-}
-
-@keyframes glitch-after {
-  0%, 88%, 100%  { transform: translate(0); opacity: 0; }
-  91%            { transform: translate(4px, 0); opacity: 0.7; }
-  94%            { transform: translate(-3px, -1px); opacity: 0.5; }
-  97%            { transform: translate(2px, 1px); opacity: 0; }
+@keyframes drift2 {
+  from { transform: translateX(5%) translateY(5%); }
+  to   { transform: translateX(-8%) translateY(-8%); }
 }
 
 /* ─── Forge button ──────────────────────────────────── */
@@ -91,43 +49,39 @@ body {
 .forge-btn {
   position: relative;
   overflow: hidden;
-  animation: pulse-glow 2.5s ease-in-out infinite;
 }
 
-.forge-btn::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    rgba(255, 255, 255, 0.12) 50%,
-    transparent 100%
-  );
-  transform: translateX(-100%);
-  animation: forge-sweep 2.5s ease-in-out infinite;
+@keyframes forge-flash {
+  0%   { box-shadow: 0 0 8px rgba(139,0,0,0.4); }
+  20%  { box-shadow: 0 0 30px rgba(180,0,0,0.9), 0 0 60px rgba(180,0,0,0.4), 0 0 100px rgba(180,0,0,0.15); }
+  100% { box-shadow: 0 0 8px rgba(139,0,0,0.4); }
 }
 
-@keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 8px rgba(220, 0, 0, 0.4); }
-  50%       { box-shadow: 0 0 20px rgba(220, 0, 0, 0.7), 0 0 40px rgba(220, 0, 0, 0.2); }
+.forge-flash {
+  animation: forge-flash 0.4s ease-out forwards;
 }
 
-@keyframes forge-sweep {
-  0%   { transform: translateX(-100%); }
-  60%  { transform: translateX(100%); }
-  100% { transform: translateX(100%); }
+/* ─── Line reveal ───────────────────────────────────── */
+
+@keyframes line-appear {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.line-reveal {
+  opacity: 0;
+  animation: line-appear 0.3s ease-out forwards;
 }
 
 /* ─── Skeleton loader ───────────────────────────────── */
 
 .skeleton-line {
-  border-radius: 4px;
+  border-radius: 2px;
   background: linear-gradient(
     90deg,
-    #1a1a1a 25%,
-    #2a2a2a 50%,
-    #1a1a1a 75%
+    #0d0d0d 25%,
+    #1a1a1a 50%,
+    #0d0d0d 75%
   );
   background-size: 200% 100%;
   animation: skeleton-shimmer 1.5s infinite;
@@ -138,19 +92,21 @@ body {
   100% { background-position: -200% 0; }
 }
 
-/* ─── Fade-in on mount ──────────────────────────────── */
+/* ─── History card scroll-in ────────────────────────── */
 
-@keyframes fade-up {
-  from { opacity: 0; transform: translateY(16px); }
-  to   { opacity: 1; transform: translateY(0); }
+.history-card {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.5s ease-out, transform 0.5s ease-out;
 }
 
-.animate-fade-up {
-  animation: fade-up 0.5s ease both;
+.history-card.visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 /* ─── Scrollbar ─────────────────────────────────────── */
 
 ::-webkit-scrollbar { width: 4px; }
-::-webkit-scrollbar-track { background: #0a0a0a; }
+::-webkit-scrollbar-track { background: #000; }
 ::-webkit-scrollbar-thumb { background: #3a0000; border-radius: 2px; }

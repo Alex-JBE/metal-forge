@@ -1,11 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Link from "next/link";
 import SubgenreSelector from "./SubgenreSelector";
 import LanguageSelector, { Language } from "./LanguageSelector";
 import GenerationHistory from "./GenerationHistory";
 import CopyButton from "./CopyButton";
+import BackgroundSlideshow from "./BackgroundSlideshow";
+import ParticleCanvas from "./ParticleCanvas";
 import { useHistory } from "@/hooks/useHistory";
 
 // ─── Types ───────────────────────────────────────────
@@ -19,24 +21,6 @@ const CONTENT_TYPES = [
 
 type ContentType = (typeof CONTENT_TYPES)[number]["value"];
 type Mode = "text" | "music-prompt";
-
-// ─── Jagged SVG Divider ───────────────────────────────
-
-function JaggedDivider({ fill = "#0a0a0a" }: { fill?: string }) {
-  return (
-    <svg
-      viewBox="0 0 1200 28"
-      xmlns="http://www.w3.org/2000/svg"
-      className="w-full block"
-      preserveAspectRatio="none"
-    >
-      <polygon
-        points="0,0 1200,0 1200,28 1100,8 1000,28 900,8 800,28 700,8 600,28 500,8 400,28 300,8 200,28 100,8 0,28"
-        fill={fill}
-      />
-    </svg>
-  );
-}
 
 // ─── Skeleton Loader ──────────────────────────────────
 
@@ -54,6 +38,29 @@ function SkeletonLoader() {
   );
 }
 
+// ─── Glass Card ───────────────────────────────────────
+
+const GLASS: React.CSSProperties = {
+  background: "rgba(8,8,8,0.92)",
+  border: "1px solid rgba(100,0,0,0.25)",
+  backdropFilter: "blur(10px)",
+  WebkitBackdropFilter: "blur(10px)",
+  borderRadius: "2px",
+};
+
+// ─── Label style ──────────────────────────────────────
+
+function Label({ children }: { children: React.ReactNode }) {
+  return (
+    <span
+      className="font-cinzel uppercase text-[#555] block mb-1.5"
+      style={{ fontSize: "11px", letterSpacing: "0.2em" }}
+    >
+      {children}
+    </span>
+  );
+}
+
 // ─── Main Component ───────────────────────────────────
 
 export default function Generator() {
@@ -68,13 +75,27 @@ export default function Generator() {
   const [shareUrl, setShareUrl] = useState("");
   const [shareLoading, setShareLoading] = useState(false);
   const [exportLoading, setExportLoading] = useState<"txt" | "pdf" | null>(null);
+  const [revealKey, setRevealKey] = useState(0);
 
+  const forgeBtnRef = useRef<HTMLButtonElement>(null);
   const { history, addEntry, clearHistory } = useHistory();
+
+  // ── Forge flash ───────────────────────────────────
+
+  function triggerForgeFlash() {
+    const btn = forgeBtnRef.current;
+    if (!btn) return;
+    btn.classList.remove("forge-flash");
+    void btn.offsetWidth;
+    btn.classList.add("forge-flash");
+    setTimeout(() => btn.classList.remove("forge-flash"), 450);
+  }
 
   // ── Generate ──────────────────────────────────────
 
   async function handleGenerate() {
     if (!subgenre) { setError("Select a subgenre first."); return; }
+    triggerForgeFlash();
     setError("");
     setOutput("");
     setShareUrl("");
@@ -113,6 +134,7 @@ export default function Generator() {
       accumulated += dec.decode(value, { stream: true });
       setOutput(accumulated);
     }
+    setRevealKey((k) => k + 1);
     addEntry({
       subgenre,
       type: contentType,
@@ -134,6 +156,7 @@ export default function Generator() {
     }
     const data = await res.json();
     setOutput(data.prompt);
+    setRevealKey((k) => k + 1);
     addEntry({
       subgenre,
       type: "music-prompt",
@@ -191,249 +214,326 @@ export default function Generator() {
     }
   }
 
+  // ── Output font ───────────────────────────────────
+
+  const outputClass =
+    mode === "music-prompt"
+      ? "font-share-tech-mono text-[13px] leading-relaxed"
+      : "font-crimson-text text-[16px] leading-[1.9]";
+
   // ── Render ────────────────────────────────────────
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-[#c0c0c0] relative overflow-x-hidden">
-      {/* Noise overlay */}
-      <div className="noise-overlay" aria-hidden />
+    <div className="min-h-screen text-[#c0c0c0] relative" style={{ zIndex: 10 }}>
+      {/* ── Backgrounds ──────────────────────────────── */}
+      <BackgroundSlideshow />
+
+      {/* Fog layer 1 */}
+      <div
+        className="fixed inset-0 pointer-events-none"
+        style={{
+          zIndex: 2,
+          background: "radial-gradient(ellipse 80% 60% at 25% 35%, rgba(40,0,0,0.15), transparent)",
+          animation: "drift1 60s ease-in-out infinite alternate",
+        }}
+        aria-hidden
+      />
+      {/* Fog layer 2 */}
+      <div
+        className="fixed inset-0 pointer-events-none"
+        style={{
+          zIndex: 2,
+          background: "radial-gradient(ellipse 70% 50% at 75% 65%, rgba(40,0,0,0.15), transparent)",
+          animation: "drift2 90s ease-in-out infinite alternate",
+        }}
+        aria-hidden
+      />
+
+      <ParticleCanvas />
 
       {/* ── Hero ─────────────────────────────────────── */}
-      <section className="relative pt-20 pb-10 text-center overflow-hidden">
-        <div
-          className="absolute inset-0 opacity-20"
-          style={{
-            background:
-              "radial-gradient(ellipse 80% 50% at 50% 0%, #7f0000 0%, transparent 70%)",
-          }}
-          aria-hidden
-        />
+      <section className="relative pt-24 pb-16 text-center px-6">
         <h1
-          className="font-metal-mania glitch text-[clamp(3rem,12vw,7rem)] leading-none text-white uppercase tracking-tight relative z-10"
-          data-text="METAL FORGE"
+          className="font-cinzel-decorative font-black text-white uppercase leading-none"
+          style={{
+            fontSize: "clamp(2.8rem,10vw,6rem)",
+            textShadow: "0 0 60px rgba(150,0,0,0.5)",
+          }}
         >
           METAL FORGE
         </h1>
-        <p className="mt-4 text-xs uppercase tracking-[0.4em] text-[#c0c0c0]/60 relative z-10">
+        <p
+          className="mt-5 font-cinzel text-[#777]"
+          style={{ letterSpacing: "0.3em", fontSize: "13px" }}
+        >
           AI-Powered Metal Content Generator
         </p>
-        <div className="mt-6 flex justify-center gap-4 relative z-10">
-          <Link href="/exports" className="text-xs text-zinc-600 hover:text-zinc-400 transition-colors uppercase tracking-widest">
-            Exports ↗
+        <div className="mt-6 flex justify-center gap-6">
+          <Link
+            href="/exports"
+            className="font-cinzel text-[#444] hover:text-[#777] transition-colors"
+            style={{ fontSize: "11px", letterSpacing: "0.2em" }}
+          >
+            EXPORTS ↗
           </Link>
         </div>
       </section>
 
-      {/* Jagged top divider */}
-      <div className="relative z-10 -mb-1">
-        <svg viewBox="0 0 1200 28" xmlns="http://www.w3.org/2000/svg" className="w-full block" preserveAspectRatio="none" aria-hidden>
-          <polygon
-            points="0,0 1200,0 1200,28 1100,8 1000,28 900,8 800,28 700,8 600,28 500,8 400,28 300,8 200,28 100,8 0,28"
-            fill="#111111"
-          />
-        </svg>
-      </div>
+      {/* ── Form card ─────────────────────────────────── */}
+      <section className="px-6 pb-8 relative">
+        <div className="mx-auto max-w-2xl" style={{ ...GLASS, padding: "40px" }}>
+          <div className="space-y-6">
 
-      {/* ── Form ──────────────────────────────────────── */}
-      <section className="bg-[#111111] py-12 px-6 relative z-10">
-        <div className="mx-auto max-w-2xl space-y-6 animate-fade-up">
-
-          {/* Mode toggle */}
-          <div className="flex gap-2">
-            {(["text", "music-prompt"] as const).map((m) => (
-              <button
-                key={m}
-                onClick={() => { setMode(m); setOutput(""); setShareUrl(""); }}
-                disabled={loading}
-                className={`flex-1 py-2.5 px-4 rounded-md text-xs font-bold uppercase tracking-widest transition-colors disabled:opacity-50 ${
-                  mode === m
-                    ? "bg-red-700 text-white"
-                    : "bg-[#1a1a1a] text-[#666] hover:bg-[#222] hover:text-[#c0c0c0]"
-                }`}
-              >
-                {m === "text" ? "📜 Text Content" : "🎵 Music Prompt"}
-              </button>
-            ))}
-          </div>
-
-          {/* Language (text mode only) */}
-          {mode === "text" && (
-            <LanguageSelector value={language} onChange={setLanguage} disabled={loading} />
-          )}
-
-          {/* Subgenre */}
-          <SubgenreSelector value={subgenre} onChange={setSubgenre} disabled={loading} />
-
-          {/* Content type (text mode only) */}
-          {mode === "text" && (
-            <div className="flex flex-col gap-1.5">
-              <label className="text-xs font-bold uppercase tracking-widest text-[#666]">
-                Content Type
-              </label>
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-                {CONTENT_TYPES.map((ct) => (
-                  <button
-                    key={ct.value}
-                    onClick={() => setContentType(ct.value)}
-                    disabled={loading}
-                    className={`py-2 px-3 rounded-md text-xs font-semibold uppercase tracking-wider transition-colors disabled:opacity-50 ${
-                      contentType === ct.value
-                        ? "bg-red-700 text-white"
-                        : "bg-[#1a1a1a] text-[#666] hover:bg-[#222] hover:text-[#c0c0c0]"
-                    }`}
-                  >
-                    {ct.label}
-                  </button>
-                ))}
-              </div>
+            {/* Mode toggle */}
+            <div className="flex gap-2">
+              {(["text", "music-prompt"] as const).map((m) => (
+                <button
+                  key={m}
+                  onClick={() => { setMode(m); setOutput(""); setShareUrl(""); }}
+                  disabled={loading}
+                  className={`flex-1 py-2.5 px-4 text-xs font-cinzel uppercase transition-colors disabled:opacity-50 ${
+                    mode === m
+                      ? "text-white"
+                      : "text-[#444] hover:text-[#888]"
+                  }`}
+                  style={{
+                    letterSpacing: "0.15em",
+                    borderRadius: "2px",
+                    border: mode === m ? "1px solid rgba(139,0,0,0.6)" : "1px solid rgba(100,0,0,0.15)",
+                    background: mode === m ? "rgba(139,0,0,0.3)" : "transparent",
+                  }}
+                >
+                  {m === "text" ? "Text Content" : "Music Prompt"}
+                </button>
+              ))}
             </div>
-          )}
 
-          {/* Optional prompt */}
-          <div className="flex flex-col gap-1.5">
-            <label className="text-xs font-bold uppercase tracking-widest text-[#666]">
-              {mode === "text" ? "Theme / Direction (optional)" : "Mood / Notes (optional)"}
-            </label>
-            <textarea
-              value={prompt}
-              onChange={(e) => setPrompt(e.target.value)}
-              disabled={loading}
-              rows={3}
-              placeholder={
-                mode === "text"
-                  ? "e.g. Norse mythology, apocalyptic despair, war..."
-                  : "e.g. cinematic, crushing, atmospheric..."
-              }
-              className="w-full rounded-md border border-[#2a2a2a] bg-[#1a1a1a] px-4 py-3 text-sm text-[#c0c0c0] placeholder-[#3a3a3a] focus:outline-none focus:ring-1 focus:ring-red-700 focus:border-red-900 transition disabled:opacity-50 resize-none"
-            />
+            {/* Language (text mode only) */}
+            {mode === "text" && (
+              <LanguageSelector value={language} onChange={setLanguage} disabled={loading} />
+            )}
+
+            {/* Subgenre */}
+            <SubgenreSelector value={subgenre} onChange={setSubgenre} disabled={loading} />
+
+            {/* Content type (text mode only) */}
+            {mode === "text" && (
+              <div>
+                <Label>Content Type</Label>
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                  {CONTENT_TYPES.map((ct) => (
+                    <button
+                      key={ct.value}
+                      onClick={() => setContentType(ct.value)}
+                      disabled={loading}
+                      className={`py-2 px-3 text-xs font-cinzel uppercase transition-colors disabled:opacity-50 ${
+                        contentType === ct.value
+                          ? "text-white"
+                          : "text-[#444] hover:text-[#888]"
+                      }`}
+                      style={{
+                        letterSpacing: "0.1em",
+                        borderRadius: "2px",
+                        border: contentType === ct.value ? "1px solid rgba(139,0,0,0.6)" : "1px solid rgba(100,0,0,0.15)",
+                        background: contentType === ct.value ? "rgba(139,0,0,0.3)" : "transparent",
+                      }}
+                    >
+                      {ct.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Optional prompt */}
+            <div>
+              <Label>
+                {mode === "text" ? "Theme / Direction (optional)" : "Mood / Notes (optional)"}
+              </Label>
+              <textarea
+                value={prompt}
+                onChange={(e) => setPrompt(e.target.value)}
+                disabled={loading}
+                rows={3}
+                placeholder={
+                  mode === "text"
+                    ? "e.g. Norse mythology, apocalyptic despair, war..."
+                    : "e.g. cinematic, crushing, atmospheric..."
+                }
+                className="w-full px-4 py-3 text-sm text-[#c0c0c0] placeholder-[#2a2a2a] bg-transparent focus:outline-none disabled:opacity-50 resize-none"
+                style={{
+                  border: "1px solid rgba(100,0,0,0.2)",
+                  borderRadius: "2px",
+                  transition: "border-color 0.2s",
+                }}
+                onFocus={(e) => (e.target.style.borderColor = "rgba(139,0,0,0.5)")}
+                onBlur={(e) => (e.target.style.borderColor = "rgba(100,0,0,0.2)")}
+              />
+            </div>
+
+            {/* Generate button */}
+            <button
+              ref={forgeBtnRef}
+              onClick={handleGenerate}
+              disabled={loading || !subgenre}
+              className="forge-btn w-full py-4 text-white font-cinzel-decorative text-xl uppercase tracking-widest transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+              style={{
+                borderRadius: "2px",
+                background: loading ? "#5a0000" : "#8b0000",
+                letterSpacing: "0.3em",
+              }}
+              onMouseEnter={(e) => { if (!loading && subgenre) (e.target as HTMLElement).style.background = "#a30000"; }}
+              onMouseLeave={(e) => { (e.target as HTMLElement).style.background = loading ? "#5a0000" : "#8b0000"; }}
+            >
+              {loading ? "FORGING…" : "FORGE"}
+            </button>
+
+            {/* Error */}
+            {error && (
+              <p className="font-cinzel text-red-600 text-xs text-center" style={{ letterSpacing: "0.1em" }}>
+                {error}
+              </p>
+            )}
           </div>
-
-          {/* Generate button */}
-          <button
-            onClick={handleGenerate}
-            disabled={loading || !subgenre}
-            className="forge-btn w-full py-4 rounded-md bg-red-700 hover:bg-red-600 active:bg-red-800 text-white font-metal-mania text-2xl uppercase tracking-widest transition-colors disabled:opacity-40 disabled:cursor-not-allowed disabled:animate-none"
-          >
-            {loading ? "FORGING…" : "⚡ FORGE"}
-          </button>
-
-          {/* Error */}
-          {error && (
-            <p className="text-red-500 text-xs text-center">{error}</p>
-          )}
         </div>
       </section>
 
-      {/* Jagged bottom divider */}
-      <div className="relative z-10 -mt-1">
-        <svg viewBox="0 0 1200 28" xmlns="http://www.w3.org/2000/svg" className="w-full block rotate-180" preserveAspectRatio="none" aria-hidden>
-          <polygon
-            points="0,0 1200,0 1200,28 1100,8 1000,28 900,8 800,28 700,8 600,28 500,8 400,28 300,8 200,28 100,8 0,28"
-            fill="#111111"
-          />
-        </svg>
-      </div>
-
-      {/* ── Output ────────────────────────────────────── */}
+      {/* ── Output card ───────────────────────────────── */}
       {(output || loading) && (
-        <section className="px-6 py-12 relative z-10">
-          <div className="mx-auto max-w-2xl animate-fade-up">
-            <div className="rounded-md border border-[#2a2a2a] bg-[#1a1a1a] overflow-hidden">
-              {/* Output header */}
-              <div className="flex items-center justify-between px-5 py-3 border-b border-[#2a2a2a] bg-[#141414]">
-                <span className="text-xs font-bold uppercase tracking-widest text-[#444]">
-                  Output
-                </span>
-                {output && !loading && (
-                  <CopyButton
-                    text={output}
-                    label="Copy"
-                    className="text-xs text-[#555] hover:text-[#c0c0c0] transition-colors"
-                  />
-                )}
-              </div>
-
-              {/* Content */}
-              <div className="p-5">
-                {loading ? (
-                  <SkeletonLoader />
-                ) : (
-                  <pre className="font-share-tech-mono whitespace-pre-wrap text-sm text-[#c0c0c0] leading-relaxed">
-                    {output}
-                  </pre>
-                )}
-              </div>
-
-              {/* Action bar */}
+        <section className="px-6 pb-8 relative">
+          <div className="mx-auto max-w-2xl overflow-hidden" style={GLASS}>
+            {/* Header */}
+            <div
+              className="flex items-center justify-between px-6 py-3"
+              style={{ borderBottom: "1px solid rgba(100,0,0,0.15)" }}
+            >
+              <span
+                className="font-cinzel text-[#333] uppercase"
+                style={{ fontSize: "10px", letterSpacing: "0.25em" }}
+              >
+                Output
+              </span>
               {output && !loading && (
-                <div className="flex flex-wrap items-center gap-3 px-5 py-4 border-t border-[#2a2a2a] bg-[#141414]">
-                  <button
-                    onClick={() => handleExport("txt")}
-                    disabled={exportLoading === "txt"}
-                    className="text-xs font-semibold text-[#888] hover:text-white transition-colors disabled:opacity-50"
-                  >
-                    {exportLoading === "txt" ? "Saving…" : "↓ .txt"}
-                  </button>
-                  <span className="text-[#2a2a2a]">|</span>
-                  <button
-                    onClick={() => handleExport("pdf")}
-                    disabled={exportLoading === "pdf"}
-                    className="text-xs font-semibold text-[#888] hover:text-white transition-colors disabled:opacity-50"
-                  >
-                    {exportLoading === "pdf" ? "Saving…" : "↓ .pdf"}
-                  </button>
-                  <span className="text-[#2a2a2a]">|</span>
-                  <button
-                    onClick={handleShare}
-                    disabled={shareLoading}
-                    className="text-xs font-semibold text-[#888] hover:text-white transition-colors disabled:opacity-50"
-                  >
-                    {shareLoading ? "Creating link…" : "⤴ Share link"}
-                  </button>
-                  <Link
-                    href="/exports"
-                    className="ml-auto text-xs text-[#444] hover:text-[#888] transition-colors"
-                  >
-                    All exports ↗
-                  </Link>
-                </div>
+                <CopyButton
+                  text={output}
+                  label="Copy"
+                  className="font-cinzel text-[#444] hover:text-[#888] transition-colors"
+                  style={{ fontSize: "10px", letterSpacing: "0.15em" } as React.CSSProperties}
+                />
               )}
+            </div>
 
-              {/* Share URL display */}
-              {shareUrl && (
-                <div className="px-5 py-3 border-t border-[#2a2a2a] bg-[#0f0f0f]">
-                  <p className="text-xs text-[#555]">
-                    Link copied:{" "}
-                    <a
-                      href={shareUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-red-600 hover:text-red-500 underline transition-colors"
+            {/* Content */}
+            <div className="p-6">
+              {loading ? (
+                <SkeletonLoader />
+              ) : (
+                <div key={revealKey} className={outputClass}>
+                  {output.split("\n").map((line, i) => (
+                    <span
+                      key={i}
+                      className="line-reveal block"
+                      style={{
+                        animationDelay: `${i * 50}ms`,
+                        minHeight: line ? undefined : "1.4em",
+                      }}
                     >
-                      {shareUrl}
-                    </a>
-                  </p>
+                      {line}
+                    </span>
+                  ))}
                 </div>
               )}
             </div>
+
+            {/* Action bar */}
+            {output && !loading && (
+              <div
+                className="flex flex-wrap items-center gap-3 px-6 py-4"
+                style={{ borderTop: "1px solid rgba(100,0,0,0.15)" }}
+              >
+                <button
+                  onClick={() => handleExport("txt")}
+                  disabled={exportLoading === "txt"}
+                  className="font-cinzel text-[#555] hover:text-[#999] transition-colors disabled:opacity-50"
+                  style={{ fontSize: "10px", letterSpacing: "0.15em" }}
+                >
+                  {exportLoading === "txt" ? "SAVING…" : "↓ .TXT"}
+                </button>
+                <span className="text-[#1a1a1a]">|</span>
+                <button
+                  onClick={() => handleExport("pdf")}
+                  disabled={exportLoading === "pdf"}
+                  className="font-cinzel text-[#555] hover:text-[#999] transition-colors disabled:opacity-50"
+                  style={{ fontSize: "10px", letterSpacing: "0.15em" }}
+                >
+                  {exportLoading === "pdf" ? "SAVING…" : "↓ .PDF"}
+                </button>
+                <span className="text-[#1a1a1a]">|</span>
+                <button
+                  onClick={handleShare}
+                  disabled={shareLoading}
+                  className="font-cinzel text-[#555] hover:text-[#999] transition-colors disabled:opacity-50"
+                  style={{ fontSize: "10px", letterSpacing: "0.15em" }}
+                >
+                  {shareLoading ? "CREATING…" : "↑ SHARE"}
+                </button>
+                <Link
+                  href="/exports"
+                  className="ml-auto font-cinzel text-[#333] hover:text-[#666] transition-colors"
+                  style={{ fontSize: "10px", letterSpacing: "0.15em" }}
+                >
+                  ALL EXPORTS ↗
+                </Link>
+              </div>
+            )}
+
+            {/* Share URL */}
+            {shareUrl && (
+              <div
+                className="px-6 py-3"
+                style={{ borderTop: "1px solid rgba(100,0,0,0.15)", background: "rgba(0,0,0,0.3)" }}
+              >
+                <p className="font-cinzel text-[#444]" style={{ fontSize: "10px", letterSpacing: "0.1em" }}>
+                  LINK COPIED:{" "}
+                  <a
+                    href={shareUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-red-800 hover:text-red-600 underline transition-colors"
+                  >
+                    {shareUrl}
+                  </a>
+                </p>
+              </div>
+            )}
           </div>
         </section>
       )}
 
       {/* ── History ───────────────────────────────────── */}
-      <section className="px-6 pb-20 relative z-10">
+      <section className="px-6 pb-24 relative">
         <div className="mx-auto max-w-2xl">
           <GenerationHistory
             entries={history}
-            onSelect={(c) => { setOutput(c); setShareUrl(""); }}
+            onSelect={(c) => {
+              setOutput(c);
+              setRevealKey((k) => k + 1);
+              setShareUrl("");
+            }}
             onClear={clearHistory}
           />
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-[#1a1a1a] py-6 px-6 text-center relative z-10">
-        <p className="text-xs text-[#333] uppercase tracking-widest">
+      <footer
+        className="py-6 px-6 text-center relative"
+        style={{ borderTop: "1px solid rgba(100,0,0,0.1)" }}
+      >
+        <p
+          className="font-cinzel text-[#222] uppercase"
+          style={{ fontSize: "10px", letterSpacing: "0.3em" }}
+        >
           Metal Forge · Powered by Claude
         </p>
       </footer>

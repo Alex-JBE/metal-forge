@@ -38,7 +38,8 @@ export default function SubgenreSelector({
     <div className="flex flex-col gap-1.5">
       <label
         htmlFor="subgenre"
-        className="text-sm font-medium text-zinc-300 uppercase tracking-widest"
+        className="font-cinzel uppercase text-[#555]"
+        style={{ fontSize: "11px", letterSpacing: "0.2em" }}
       >
         Subgenre
       </label>
@@ -47,13 +48,18 @@ export default function SubgenreSelector({
         value={value}
         onChange={(e) => onChange(e.target.value)}
         disabled={disabled}
-        className="w-full rounded-md border border-zinc-700 bg-zinc-900 px-3 py-2 text-zinc-100 text-sm focus:outline-none focus:ring-2 focus:ring-red-600 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed"
+        className="w-full px-3 py-2.5 text-sm text-[#c0c0c0] bg-transparent focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed"
+        style={{
+          border: "1px solid rgba(100,0,0,0.25)",
+          borderRadius: "2px",
+          background: "rgba(0,0,0,0.4)",
+        }}
       >
-        <option value="" disabled>
+        <option value="" disabled className="bg-[#0a0a0a]">
           — select a subgenre —
         </option>
         {METAL_SUBGENRES.map((genre) => (
-          <option key={genre.value} value={genre.value}>
+          <option key={genre.value} value={genre.value} className="bg-[#0a0a0a]">
             {genre.label}
           </option>
         ))}
