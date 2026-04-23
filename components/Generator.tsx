@@ -6,8 +6,6 @@ import SubgenreSelector from "./SubgenreSelector";
 import LanguageSelector, { Language } from "./LanguageSelector";
 import GenerationHistory from "./GenerationHistory";
 import CopyButton from "./CopyButton";
-import BackgroundSlideshow from "./BackgroundSlideshow";
-import ParticleCanvas from "./ParticleCanvas";
 import { useHistory } from "@/hooks/useHistory";
 
 // ─── Types ───────────────────────────────────────────
@@ -38,7 +36,7 @@ function SkeletonLoader() {
   );
 }
 
-// ─── Glass Card ───────────────────────────────────────
+// ─── Glass Card style ─────────────────────────────────
 
 const GLASS: React.CSSProperties = {
   background: "rgba(8,8,8,0.92)",
@@ -48,13 +46,13 @@ const GLASS: React.CSSProperties = {
   borderRadius: "2px",
 };
 
-// ─── Label style ──────────────────────────────────────
+// ─── Label ────────────────────────────────────────────
 
 function Label({ children }: { children: React.ReactNode }) {
   return (
     <span
-      className="font-cinzel uppercase text-[#555] block mb-1.5"
-      style={{ fontSize: "11px", letterSpacing: "0.2em" }}
+      className="font-cinzel uppercase block mb-1.5"
+      style={{ fontSize: "11px", letterSpacing: "0.2em", color: "rgba(255,255,255,0.4)" }}
     >
       {children}
     </span>
@@ -224,65 +222,11 @@ export default function Generator() {
   // ── Render ────────────────────────────────────────
 
   return (
-    <div className="min-h-screen text-[#c0c0c0] relative" style={{ zIndex: 10 }}>
-      {/* ── Backgrounds ──────────────────────────────── */}
-      <BackgroundSlideshow />
-
-      {/* Fog layer 1 */}
-      <div
-        className="fixed inset-0 pointer-events-none"
-        style={{
-          zIndex: 2,
-          background: "radial-gradient(ellipse 80% 60% at 25% 35%, rgba(40,0,0,0.15), transparent)",
-          animation: "drift1 60s ease-in-out infinite alternate",
-        }}
-        aria-hidden
-      />
-      {/* Fog layer 2 */}
-      <div
-        className="fixed inset-0 pointer-events-none"
-        style={{
-          zIndex: 2,
-          background: "radial-gradient(ellipse 70% 50% at 75% 65%, rgba(40,0,0,0.15), transparent)",
-          animation: "drift2 90s ease-in-out infinite alternate",
-        }}
-        aria-hidden
-      />
-
-      <ParticleCanvas />
-
-      {/* ── Hero ─────────────────────────────────────── */}
-      <section className="relative pt-24 pb-16 text-center px-6">
-        <h1
-          className="font-cinzel-decorative font-black text-white uppercase leading-none"
-          style={{
-            fontSize: "clamp(2.8rem,10vw,6rem)",
-            textShadow: "0 0 60px rgba(150,0,0,0.5)",
-          }}
-        >
-          METAL FORGE
-        </h1>
-        <p
-          className="mt-5 font-cinzel text-[#777]"
-          style={{ letterSpacing: "0.3em", fontSize: "13px" }}
-        >
-          AI-Powered Metal Content Generator
-        </p>
-        <div className="mt-6 flex justify-center gap-6">
-          <Link
-            href="/exports"
-            className="font-cinzel text-[#444] hover:text-[#777] transition-colors"
-            style={{ fontSize: "11px", letterSpacing: "0.2em" }}
-          >
-            EXPORTS ↗
-          </Link>
-        </div>
-      </section>
-
+    <div className="text-[#cccccc]">
       {/* ── Form card ─────────────────────────────────── */}
-      <section className="px-6 pb-8 relative">
-        <div className="mx-auto max-w-2xl" style={{ ...GLASS, padding: "40px" }}>
-          <div className="space-y-6">
+      <div style={{ marginBottom: "12px" }}>
+        <div style={{ ...GLASS, padding: "24px" }}>
+          <div className="space-y-5">
 
             {/* Mode toggle */}
             <div className="flex gap-2">
@@ -291,16 +235,14 @@ export default function Generator() {
                   key={m}
                   onClick={() => { setMode(m); setOutput(""); setShareUrl(""); }}
                   disabled={loading}
-                  className={`flex-1 py-2.5 px-4 text-xs font-cinzel uppercase transition-colors disabled:opacity-50 ${
-                    mode === m
-                      ? "text-white"
-                      : "text-[#444] hover:text-[#888]"
-                  }`}
+                  className="flex-1 py-2 px-3 font-cinzel uppercase transition-colors disabled:opacity-50"
                   style={{
+                    fontSize: "9px",
                     letterSpacing: "0.15em",
                     borderRadius: "2px",
-                    border: mode === m ? "1px solid rgba(139,0,0,0.6)" : "1px solid rgba(100,0,0,0.15)",
-                    background: mode === m ? "rgba(139,0,0,0.3)" : "transparent",
+                    border: mode === m ? "1px solid rgba(204,0,0,0.6)" : "1px solid rgba(100,0,0,0.15)",
+                    background: mode === m ? "rgba(204,0,0,0.2)" : "transparent",
+                    color: mode === m ? "#fff" : "rgba(255,255,255,0.35)",
                   }}
                 >
                   {m === "text" ? "Text Content" : "Music Prompt"}
@@ -326,16 +268,14 @@ export default function Generator() {
                       key={ct.value}
                       onClick={() => setContentType(ct.value)}
                       disabled={loading}
-                      className={`py-2 px-3 text-xs font-cinzel uppercase transition-colors disabled:opacity-50 ${
-                        contentType === ct.value
-                          ? "text-white"
-                          : "text-[#444] hover:text-[#888]"
-                      }`}
+                      className="py-1.5 px-2 font-cinzel uppercase transition-colors disabled:opacity-50"
                       style={{
+                        fontSize: "8px",
                         letterSpacing: "0.1em",
                         borderRadius: "2px",
-                        border: contentType === ct.value ? "1px solid rgba(139,0,0,0.6)" : "1px solid rgba(100,0,0,0.15)",
-                        background: contentType === ct.value ? "rgba(139,0,0,0.3)" : "transparent",
+                        border: contentType === ct.value ? "1px solid rgba(204,0,0,0.6)" : "1px solid rgba(100,0,0,0.15)",
+                        background: contentType === ct.value ? "rgba(204,0,0,0.2)" : "transparent",
+                        color: contentType === ct.value ? "#fff" : "rgba(255,255,255,0.35)",
                       }}
                     >
                       {ct.label}
@@ -360,13 +300,14 @@ export default function Generator() {
                     ? "e.g. Norse mythology, apocalyptic despair, war..."
                     : "e.g. cinematic, crushing, atmospheric..."
                 }
-                className="w-full px-4 py-3 text-sm text-[#c0c0c0] placeholder-[#2a2a2a] bg-transparent focus:outline-none disabled:opacity-50 resize-none"
+                className="w-full px-3 py-2.5 text-sm text-[#cccccc] placeholder-[#2a2a2a] bg-transparent focus:outline-none disabled:opacity-50 resize-none"
                 style={{
                   border: "1px solid rgba(100,0,0,0.2)",
                   borderRadius: "2px",
                   transition: "border-color 0.2s",
+                  fontSize: "12px",
                 }}
-                onFocus={(e) => (e.target.style.borderColor = "rgba(139,0,0,0.5)")}
+                onFocus={(e) => (e.target.style.borderColor = "rgba(204,0,0,0.5)")}
                 onBlur={(e) => (e.target.style.borderColor = "rgba(100,0,0,0.2)")}
               />
             </div>
@@ -376,166 +317,148 @@ export default function Generator() {
               ref={forgeBtnRef}
               onClick={handleGenerate}
               disabled={loading || !subgenre}
-              className="forge-btn w-full py-4 text-white font-cinzel-decorative text-xl uppercase tracking-widest transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+              className="forge-btn w-full py-3 font-metal-mania text-white uppercase tracking-widest transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
               style={{
+                fontSize: "16px",
                 borderRadius: "2px",
-                background: loading ? "#5a0000" : "#8b0000",
-                letterSpacing: "0.3em",
+                background: loading ? "#8a0000" : "#cc0000",
+                letterSpacing: "0.2em",
               }}
-              onMouseEnter={(e) => { if (!loading && subgenre) (e.target as HTMLElement).style.background = "#a30000"; }}
-              onMouseLeave={(e) => { (e.target as HTMLElement).style.background = loading ? "#5a0000" : "#8b0000"; }}
+              onMouseEnter={(e) => { if (!loading && subgenre) (e.currentTarget as HTMLElement).style.background = "#e00000"; }}
+              onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = loading ? "#8a0000" : "#cc0000"; }}
             >
               {loading ? "FORGING…" : "FORGE"}
             </button>
 
             {/* Error */}
             {error && (
-              <p className="font-cinzel text-red-600 text-xs text-center" style={{ letterSpacing: "0.1em" }}>
+              <p className="font-cinzel text-[#cc0000] text-center" style={{ fontSize: "10px", letterSpacing: "0.1em" }}>
                 {error}
               </p>
             )}
           </div>
         </div>
-      </section>
+      </div>
 
       {/* ── Output card ───────────────────────────────── */}
       {(output || loading) && (
-        <section className="px-6 pb-8 relative">
-          <div className="mx-auto max-w-2xl overflow-hidden" style={GLASS}>
-            {/* Header */}
-            <div
-              className="flex items-center justify-between px-6 py-3"
-              style={{ borderBottom: "1px solid rgba(100,0,0,0.15)" }}
+        <div style={{ marginBottom: "12px", overflow: "hidden", ...GLASS }}>
+          {/* Header */}
+          <div
+            className="flex items-center justify-between px-5 py-2.5"
+            style={{ borderBottom: "1px solid rgba(100,0,0,0.15)" }}
+          >
+            <span
+              className="font-cinzel uppercase text-[#333]"
+              style={{ fontSize: "9px", letterSpacing: "0.25em" }}
             >
-              <span
-                className="font-cinzel text-[#333] uppercase"
-                style={{ fontSize: "10px", letterSpacing: "0.25em" }}
-              >
-                Output
-              </span>
-              {output && !loading && (
-                <CopyButton
-                  text={output}
-                  label="Copy"
-                  className="font-cinzel text-[#444] hover:text-[#888] transition-colors text-[10px] tracking-[0.15em]"
-                />
-              )}
-            </div>
-
-            {/* Content */}
-            <div className="p-6">
-              {loading ? (
-                <SkeletonLoader />
-              ) : (
-                <div key={revealKey} className={outputClass}>
-                  {output.split("\n").map((line, i) => (
-                    <span
-                      key={i}
-                      className="line-reveal block"
-                      style={{
-                        animationDelay: `${i * 50}ms`,
-                        minHeight: line ? undefined : "1.4em",
-                      }}
-                    >
-                      {line}
-                    </span>
-                  ))}
-                </div>
-              )}
-            </div>
-
-            {/* Action bar */}
+              Output
+            </span>
             {output && !loading && (
-              <div
-                className="flex flex-wrap items-center gap-3 px-6 py-4"
-                style={{ borderTop: "1px solid rgba(100,0,0,0.15)" }}
-              >
-                <button
-                  onClick={() => handleExport("txt")}
-                  disabled={exportLoading === "txt"}
-                  className="font-cinzel text-[#555] hover:text-[#999] transition-colors disabled:opacity-50"
-                  style={{ fontSize: "10px", letterSpacing: "0.15em" }}
-                >
-                  {exportLoading === "txt" ? "SAVING…" : "↓ .TXT"}
-                </button>
-                <span className="text-[#1a1a1a]">|</span>
-                <button
-                  onClick={() => handleExport("pdf")}
-                  disabled={exportLoading === "pdf"}
-                  className="font-cinzel text-[#555] hover:text-[#999] transition-colors disabled:opacity-50"
-                  style={{ fontSize: "10px", letterSpacing: "0.15em" }}
-                >
-                  {exportLoading === "pdf" ? "SAVING…" : "↓ .PDF"}
-                </button>
-                <span className="text-[#1a1a1a]">|</span>
-                <button
-                  onClick={handleShare}
-                  disabled={shareLoading}
-                  className="font-cinzel text-[#555] hover:text-[#999] transition-colors disabled:opacity-50"
-                  style={{ fontSize: "10px", letterSpacing: "0.15em" }}
-                >
-                  {shareLoading ? "CREATING…" : "↑ SHARE"}
-                </button>
-                <Link
-                  href="/exports"
-                  className="ml-auto font-cinzel text-[#333] hover:text-[#666] transition-colors"
-                  style={{ fontSize: "10px", letterSpacing: "0.15em" }}
-                >
-                  ALL EXPORTS ↗
-                </Link>
-              </div>
+              <CopyButton
+                text={output}
+                label="Copy"
+                className="font-cinzel text-[#444] hover:text-[#888] transition-colors text-[9px] tracking-[0.15em] uppercase"
+              />
             )}
+          </div>
 
-            {/* Share URL */}
-            {shareUrl && (
-              <div
-                className="px-6 py-3"
-                style={{ borderTop: "1px solid rgba(100,0,0,0.15)", background: "rgba(0,0,0,0.3)" }}
-              >
-                <p className="font-cinzel text-[#444]" style={{ fontSize: "10px", letterSpacing: "0.1em" }}>
-                  LINK COPIED:{" "}
-                  <a
-                    href={shareUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-red-800 hover:text-red-600 underline transition-colors"
+          {/* Content */}
+          <div className="p-5">
+            {loading ? (
+              <SkeletonLoader />
+            ) : (
+              <div key={revealKey} className={outputClass}>
+                {output.split("\n").map((line, i) => (
+                  <span
+                    key={i}
+                    className="line-reveal block"
+                    style={{
+                      animationDelay: `${i * 50}ms`,
+                      minHeight: line ? undefined : "1.4em",
+                    }}
                   >
-                    {shareUrl}
-                  </a>
-                </p>
+                    {line}
+                  </span>
+                ))}
               </div>
             )}
           </div>
-        </section>
+
+          {/* Action bar */}
+          {output && !loading && (
+            <div
+              className="flex flex-wrap items-center gap-3 px-5 py-3"
+              style={{ borderTop: "1px solid rgba(100,0,0,0.15)" }}
+            >
+              <button
+                onClick={() => handleExport("txt")}
+                disabled={exportLoading === "txt"}
+                className="font-cinzel text-[#555] hover:text-[#999] transition-colors disabled:opacity-50 uppercase"
+                style={{ fontSize: "9px", letterSpacing: "0.15em" }}
+              >
+                {exportLoading === "txt" ? "SAVING…" : "↓ .TXT"}
+              </button>
+              <span className="text-[#1a1a1a]">|</span>
+              <button
+                onClick={() => handleExport("pdf")}
+                disabled={exportLoading === "pdf"}
+                className="font-cinzel text-[#555] hover:text-[#999] transition-colors disabled:opacity-50 uppercase"
+                style={{ fontSize: "9px", letterSpacing: "0.15em" }}
+              >
+                {exportLoading === "pdf" ? "SAVING…" : "↓ .PDF"}
+              </button>
+              <span className="text-[#1a1a1a]">|</span>
+              <button
+                onClick={handleShare}
+                disabled={shareLoading}
+                className="font-cinzel text-[#555] hover:text-[#999] transition-colors disabled:opacity-50 uppercase"
+                style={{ fontSize: "9px", letterSpacing: "0.15em" }}
+              >
+                {shareLoading ? "CREATING…" : "↑ SHARE"}
+              </button>
+              <Link
+                href="/exports"
+                className="ml-auto font-cinzel text-[#333] hover:text-[#666] transition-colors uppercase"
+                style={{ fontSize: "9px", letterSpacing: "0.15em" }}
+              >
+                ALL EXPORTS ↗
+              </Link>
+            </div>
+          )}
+
+          {/* Share URL */}
+          {shareUrl && (
+            <div
+              className="px-5 py-2.5"
+              style={{ borderTop: "1px solid rgba(100,0,0,0.15)", background: "rgba(0,0,0,0.3)" }}
+            >
+              <p className="font-cinzel text-[#444]" style={{ fontSize: "9px", letterSpacing: "0.1em" }}>
+                LINK COPIED:{" "}
+                <a
+                  href={shareUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-red-800 hover:text-red-600 underline transition-colors"
+                >
+                  {shareUrl}
+                </a>
+              </p>
+            </div>
+          )}
+        </div>
       )}
 
       {/* ── History ───────────────────────────────────── */}
-      <section className="px-6 pb-24 relative">
-        <div className="mx-auto max-w-2xl">
-          <GenerationHistory
-            entries={history}
-            onSelect={(c) => {
-              setOutput(c);
-              setRevealKey((k) => k + 1);
-              setShareUrl("");
-            }}
-            onClear={clearHistory}
-          />
-        </div>
-      </section>
-
-      {/* Footer */}
-      <footer
-        className="py-6 px-6 text-center relative"
-        style={{ borderTop: "1px solid rgba(100,0,0,0.1)" }}
-      >
-        <p
-          className="font-cinzel text-[#222] uppercase"
-          style={{ fontSize: "10px", letterSpacing: "0.3em" }}
-        >
-          Metal Forge · Powered by Claude
-        </p>
-      </footer>
+      <GenerationHistory
+        entries={history}
+        onSelect={(c) => {
+          setOutput(c);
+          setRevealKey((k) => k + 1);
+          setShareUrl("");
+        }}
+        onClear={clearHistory}
+      />
     </div>
   );
 }

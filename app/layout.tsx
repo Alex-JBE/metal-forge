@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
-import { Cinzel_Decorative, Cinzel, Crimson_Text, Share_Tech_Mono } from "next/font/google";
+import { Metal_Mania, Cinzel, Crimson_Text, Share_Tech_Mono } from "next/font/google";
 import "./globals.css";
 
-const cinzelDecorative = Cinzel_Decorative({
-  weight: ["400", "900"],
+const metalMania = Metal_Mania({
+  weight: "400",
   subsets: ["latin"],
-  variable: "--font-cinzel-decorative",
+  variable: "--font-metal-mania",
   display: "swap",
 });
 
@@ -44,7 +44,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${cinzelDecorative.variable} ${cinzel.variable} ${crimsonText.variable} ${shareTechMono.variable} h-full`}
+      className={`${metalMania.variable} ${cinzel.variable} ${crimsonText.variable} ${shareTechMono.variable} h-full`}
     >
       <body className="min-h-full flex flex-col bg-black">{children}</body>
     </html>

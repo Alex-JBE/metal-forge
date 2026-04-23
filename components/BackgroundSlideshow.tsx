@@ -3,14 +3,14 @@
 import { useEffect, useState } from "react";
 
 const PHOTOS = [
-  "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=1920&q=80",
-  "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=1920&q=80",
-  "https://images.unsplash.com/photo-1518770660439-4636190af475?w=1920&q=80",
-  "https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=1920&q=80",
-  "https://images.unsplash.com/photo-1506157786151-b8491531f063?w=1920&q=80",
-  "https://images.unsplash.com/photo-1501386761578-eac5c94b800a?w=1920&q=80",
-  "https://images.unsplash.com/photo-1563841930606-67e2bce48b78?w=1920&q=80",
-  "https://images.unsplash.com/photo-1598387993441-a364f854c3e1?w=1920&q=80",
+  "https://images.pexels.com/photos/1540406/pexels-photo-1540406.jpeg?w=1920",
+  "https://images.pexels.com/photos/1763075/pexels-photo-1763075.jpeg?w=1920",
+  "https://images.pexels.com/photos/995301/pexels-photo-995301.jpeg?w=1920",
+  "https://images.pexels.com/photos/460537/pexels-photo-460537.jpeg?w=1920",
+  "https://images.pexels.com/photos/1916820/pexels-photo-1916820.jpeg?w=1920",
+  "https://images.pexels.com/photos/1105666/pexels-photo-1105666.jpeg?w=1920",
+  "https://images.pexels.com/photos/2111015/pexels-photo-2111015.jpeg?w=1920",
+  "https://images.pexels.com/photos/167636/pexels-photo-167636.jpeg?w=1920",
 ];
 
 export default function BackgroundSlideshow() {
@@ -36,11 +36,7 @@ export default function BackgroundSlideshow() {
           }}
         />
       ))}
-      {/* Dark overlay */}
-      <div
-        className="absolute inset-0"
-        style={{ background: "rgba(0,0,0,0.82)", zIndex: 1 }}
-      />
+      <div className="absolute inset-0" style={{ background: "rgba(0,0,0,0.82)", zIndex: 1 }} />
     </div>
   );
 }
