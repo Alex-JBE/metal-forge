@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import Generator from "@/components/Generator";
 import BackgroundSlideshow from "@/components/BackgroundSlideshow";
 import ParticleCanvas from "@/components/ParticleCanvas";
@@ -5,8 +8,11 @@ import SiteHeader from "@/components/SiteHeader";
 import LeftSidebar from "@/components/LeftSidebar";
 import RightSidebar from "@/components/RightSidebar";
 import SiteFooter from "@/components/SiteFooter";
+import { Language } from "@/components/LanguageSelector";
 
 export default function Home() {
+  const [language, setLanguage] = useState<Language>("en");
+
   return (
     <>
       {/* ── Fixed background layers ─────────────────── */}
@@ -37,7 +43,7 @@ export default function Home() {
 
       {/* ── Page structure ──────────────────────────── */}
       <div className="relative flex flex-col min-h-screen" style={{ zIndex: 10 }}>
-        <SiteHeader />
+        <SiteHeader language={language} onLanguageChange={setLanguage} />
 
         <main
           style={{
@@ -58,7 +64,7 @@ export default function Home() {
               overflowY: "auto",
             }}
           >
-            <Generator />
+            <Generator language={language} />
           </div>
 
           <RightSidebar />

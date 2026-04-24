@@ -3,7 +3,7 @@
 import { useRef, useState } from "react";
 import Link from "next/link";
 import SubgenreSelector from "./SubgenreSelector";
-import LanguageSelector, { Language } from "./LanguageSelector";
+import { Language } from "./LanguageSelector";
 import GenerationHistory from "./GenerationHistory";
 import CopyButton from "./CopyButton";
 import { useHistory } from "@/hooks/useHistory";
@@ -59,11 +59,14 @@ function Label({ children }: { children: React.ReactNode }) {
 
 // ─── Main Component ───────────────────────────────────
 
-export default function Generator() {
+interface Props {
+  language: Language;
+}
+
+export default function Generator({ language }: Props) {
   const [mode, setMode] = useState<Mode>("text");
   const [subgenre, setSubgenre] = useState("");
   const [contentType, setContentType] = useState<ContentType>("lyrics");
-  const [language, setLanguage] = useState<Language>("en");
   const [prompt, setPrompt] = useState("");
   const [output, setOutput] = useState("");
   const [loading, setLoading] = useState(false);
@@ -247,11 +250,6 @@ export default function Generator() {
               </button>
             ))}
           </div>
-
-          {/* Language (text mode only) */}
-          {mode === "text" && (
-            <LanguageSelector value={language} onChange={setLanguage} disabled={loading} />
-          )}
 
           {/* Subgenre */}
           <SubgenreSelector value={subgenre} onChange={setSubgenre} disabled={loading} />
