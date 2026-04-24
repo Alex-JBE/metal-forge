@@ -48,7 +48,7 @@ export default function SiteHeader({ language, onLanguageChange }: Props) {
             transition: "opacity 1.5s ease-in-out",
           }}
         >
-          <div style={{ position: "absolute", inset: 0, background: "rgba(0,0,0,0.68)" }} />
+          <div style={{ position: "absolute", inset: 0, background: "rgba(0,0,0,0.72)" }} />
         </div>
       ))}
 
@@ -63,15 +63,18 @@ export default function SiteHeader({ language, onLanguageChange }: Props) {
           justifyContent: "center",
         }}
       >
-        <img
-          src="/logo.png"
-          alt="Metal Forge"
+        <h1
           style={{
-            height: "160px",
-            objectFit: "contain",
-            filter: "drop-shadow(0 0 20px rgba(200,0,0,0.4))",
+            fontFamily: "var(--font-metal-mania), serif",
+            fontSize: "72px",
+            color: "#fff",
+            textShadow: "0 0 50px rgba(200,0,0,0.8), 3px 3px 0 #550000",
+            lineHeight: "1",
+            margin: 0,
           }}
-        />
+        >
+          METAL FORGE
+        </h1>
         <p
           style={{
             fontFamily: "var(--font-cinzel), serif",

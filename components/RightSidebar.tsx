@@ -1,170 +1,77 @@
-const ALBUMS = [
-  { band: "Blood Incantation", title: "Luminescent Bridge", year: "2024", isNew: true },
-  { band: "Gatecreeper", title: "Dark Superstition", year: "2024", isNew: true },
-  { band: "Undeath", title: "More Insane", year: "2024", isNew: true },
-  { band: "Mortiferum", title: "Preserve and Protect the Dead", year: "2024", isNew: true },
-  { band: "Suffering Hour", title: "The Cyclopean Scape", year: "2024", isNew: false },
-  { band: "Ingested", title: "Ashes Lie Still", year: "2024", isNew: false },
-  { band: "Tomb Mold", title: "The Enduring Spirit", year: "2023", isNew: false },
-  { band: "Frozen Soul", title: "Glacial Domination", year: "2023", isNew: false },
-];
+"use client";
 
-function AlbumThumb({ initial }: { initial: string }) {
-  return (
-    <div
-      style={{
-        width: "44px",
-        height: "44px",
-        flexShrink: 0,
-        background: "linear-gradient(135deg, #1a0000 0%, #2a0000 100%)",
-        border: "1px solid rgba(204,0,0,0.25)",
-        borderRadius: "2px",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-      }}
-    >
-      <span
-        style={{
-          fontFamily: "var(--font-metal-mania), serif",
-          fontSize: "16px",
-          color: "rgba(204,0,0,0.7)",
-        }}
-      >
-        {initial}
-      </span>
-    </div>
-  );
-}
+const LINKS = [
+  { name: "Encyclopaedia Metallum", url: "https://www.metal-archives.com", desc: "The ultimate metal band archive" },
+  { name: "Metal Storm", url: "https://www.metalstorm.net", desc: "Reviews & ratings" },
+  { name: "Decibel Magazine", url: "https://www.decibelmagazine.com", desc: "Metal journalism" },
+  { name: "No Clean Singing", url: "https://www.nocleansinging.com", desc: "Extreme metal blog" },
+  { name: "Bandcamp Death Metal", url: "https://bandcamp.com/tag/death-metal", desc: "Death metal releases" },
+  { name: "Metal Injection", url: "https://www.metalinjection.net", desc: "News & interviews" },
+  { name: "Angry Metal Guy", url: "https://www.angrymetalguy.com", desc: "Critical metal reviews" },
+  { name: "r/Deathmetal", url: "https://reddit.com/r/Deathmetal", desc: "Reddit community" },
+];
 
 export default function RightSidebar() {
   return (
-    <aside
-      style={{
-        background: "#0d0d0d",
-        borderLeft: "1px solid rgba(204,0,0,0.15)",
-        padding: "12px",
-        display: "flex",
-        flexDirection: "column",
-        position: "relative",
-        zIndex: 10,
-      }}
-    >
-      {/* Section title */}
+    <aside style={{ padding: "12px" }}>
       <p
         style={{
           fontFamily: "var(--font-cinzel), serif",
           fontSize: "7px",
           letterSpacing: "0.2em",
-          color: "#888888",
+          color: "#cc0000",
           textTransform: "uppercase",
           paddingBottom: "8px",
           marginBottom: "10px",
-          borderBottom: "1px solid rgba(204,0,0,0.2)",
+          borderBottom: "1px solid #1a1a1a",
         }}
       >
-        New Releases · deathgrind.club
+        Metal Resources
       </p>
 
-      <div style={{ flex: 1 }}>
-        {ALBUMS.map((album) => (
-          <div
-            key={`${album.band}-${album.title}`}
-            style={{
-              display: "flex",
-              gap: "8px",
-              alignItems: "flex-start",
-              marginBottom: "10px",
-            }}
-          >
-            <AlbumThumb initial={album.band.charAt(0)} />
-            <div style={{ minWidth: 0, flex: 1 }}>
-              <div style={{ display: "flex", alignItems: "center", gap: "4px", marginBottom: "2px" }}>
-                <span
-                  style={{
-                    fontFamily: "var(--font-cinzel), serif",
-                    fontSize: "11px",
-                    fontWeight: "600",
-                    color: "#ffffff",
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                    whiteSpace: "nowrap",
-                    flex: 1,
-                  }}
-                >
-                  {album.band}
-                </span>
-                {album.isNew && (
-                  <span
-                    style={{
-                      fontFamily: "var(--font-cinzel), serif",
-                      fontSize: "7px",
-                      letterSpacing: "0.1em",
-                      color: "#cc0000",
-                      border: "1px solid rgba(204,0,0,0.5)",
-                      padding: "1px 3px",
-                      flexShrink: 0,
-                    }}
-                  >
-                    NEW
-                  </span>
-                )}
-              </div>
-              <span
-                style={{
-                  fontFamily: "var(--font-crimson-text), Georgia, serif",
-                  fontStyle: "italic",
-                  fontSize: "10px",
-                  color: "#888888",
-                  display: "block",
-                  overflow: "hidden",
-                  textOverflow: "ellipsis",
-                  whiteSpace: "nowrap",
-                }}
-              >
-                {album.title}
-              </span>
-              <span
-                style={{
-                  fontFamily: "var(--font-cinzel), serif",
-                  fontSize: "8px",
-                  color: "#cc0000",
-                  letterSpacing: "0.1em",
-                }}
-              >
-                {album.year}
-              </span>
-            </div>
+      {LINKS.map((link) => (
+        <a
+          key={link.url}
+          href={link.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{ display: "flex", alignItems: "flex-start", gap: "6px", marginBottom: "10px", textDecoration: "none" }}
+          onMouseEnter={(e) => {
+            (e.currentTarget.querySelector(".link-name") as HTMLElement).style.color = "#cc0000";
+          }}
+          onMouseLeave={(e) => {
+            (e.currentTarget.querySelector(".link-name") as HTMLElement).style.color = "#888888";
+          }}
+        >
+          <span style={{ color: "#cc0000", fontSize: "8px", marginTop: "2px", flexShrink: 0 }}>●</span>
+          <div>
+            <span
+              className="link-name"
+              style={{
+                fontFamily: "var(--font-cinzel), serif",
+                fontSize: "9px",
+                letterSpacing: "0.08em",
+                color: "#888888",
+                display: "block",
+                marginBottom: "2px",
+                transition: "color 0.2s",
+              }}
+            >
+              {link.name}
+            </span>
+            <span
+              style={{
+                fontFamily: "var(--font-crimson-text), Georgia, serif",
+                fontSize: "9px",
+                color: "#333333",
+                display: "block",
+              }}
+            >
+              {link.desc}
+            </span>
           </div>
-        ))}
-      </div>
-
-      {/* Chuck Schuldiner quote */}
-      <div style={{ borderTop: "1px solid rgba(204,0,0,0.15)", paddingTop: "10px", marginTop: "10px" }}>
-        <p
-          style={{
-            fontFamily: "var(--font-crimson-text), Georgia, serif",
-            fontStyle: "italic",
-            fontSize: "10px",
-            color: "rgba(255,255,255,0.5)",
-            lineHeight: "1.6",
-          }}
-        >
-          "Death metal is about reality. It's about what really happens."
-        </p>
-        <p
-          style={{
-            fontFamily: "var(--font-cinzel), serif",
-            fontSize: "7px",
-            color: "#cc0000",
-            letterSpacing: "0.15em",
-            marginTop: "4px",
-            textTransform: "uppercase",
-          }}
-        >
-          Chuck Schuldiner
-        </p>
-      </div>
+        </a>
+      ))}
     </aside>
   );
 }
