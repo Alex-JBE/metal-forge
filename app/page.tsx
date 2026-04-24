@@ -45,29 +45,16 @@ export default function Home() {
       <div className="relative flex flex-col min-h-screen" style={{ zIndex: 10 }}>
         <SiteHeader language={language} onLanguageChange={setLanguage} />
 
-        <main
-          style={{
-            display: "grid",
-            gridTemplateColumns: "188px 1fr 188px",
-            flex: 1,
-            minHeight: "600px",
-          }}
-        >
-          <LeftSidebar />
-
-          {/* Centre column */}
-          <div
-            style={{
-              padding: "14px",
-              borderLeft: "1px solid rgba(204,0,0,0.08)",
-              borderRight: "1px solid rgba(204,0,0,0.08)",
-              overflowY: "auto",
-            }}
-          >
+        <main style={{ display: "flex", width: "100%", minHeight: "600px", borderTop: "1px solid #181818" }}>
+          <div style={{ width: "25%", borderRight: "1px solid #181818" }}>
+            <LeftSidebar />
+          </div>
+          <div style={{ width: "50%", borderRight: "1px solid #181818" }}>
             <Generator language={language} />
           </div>
-
-          <RightSidebar />
+          <div style={{ width: "25%" }}>
+            <RightSidebar />
+          </div>
         </main>
 
         <SiteFooter />

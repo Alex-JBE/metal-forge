@@ -5,8 +5,8 @@ import { Language } from "./LanguageSelector";
 
 const SLIDES = [
   "https://images.pexels.com/photos/1540406/pexels-photo-1540406.jpeg?w=1920",
-  "https://images.pexels.com/photos/995301/pexels-photo-995301.jpeg?w=1920",
   "https://images.pexels.com/photos/1763075/pexels-photo-1763075.jpeg?w=1920",
+  "https://images.pexels.com/photos/995301/pexels-photo-995301.jpeg?w=1920",
   "https://images.pexels.com/photos/460537/pexels-photo-460537.jpeg?w=1920",
   "https://images.pexels.com/photos/1105666/pexels-photo-1105666.jpeg?w=1920",
 ];
