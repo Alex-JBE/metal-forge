@@ -1,59 +1,110 @@
-const ACCENT = "rgba(204,0,0,0.5)";
-const QUOTE_STYLE: React.CSSProperties = {
-  fontFamily: "var(--font-crimson-text), Georgia, serif",
-  fontStyle: "italic",
-  fontSize: "11px",
-  color: "rgba(255,255,255,0.7)",
-  lineHeight: "1.65",
-};
-const AUTHOR_STYLE: React.CSSProperties = {
-  fontFamily: "var(--font-cinzel), serif",
-  fontSize: "7px",
-  color: ACCENT,
-  letterSpacing: "0.15em",
-  marginTop: "6px",
-  textTransform: "uppercase",
-};
-const RED_LINE: React.CSSProperties = {
-  width: "24px",
-  height: "2px",
-  background: "#cc0000",
-  marginBottom: "8px",
-};
-
 export default function SiteHeader() {
   return (
-    <header
-      style={{
-        height: "180px",
-        background: "rgba(0,0,0,0.88)",
-        display: "grid",
-        gridTemplateColumns: "188px 1fr 188px",
-        alignItems: "center",
-        borderBottom: "1px solid rgba(204,0,0,0.2)",
-        position: "relative",
-        zIndex: 10,
-      }}
-    >
+    <header style={{ height: "150px", position: "relative", overflow: "hidden" }}>
+      {/* Background image */}
+      <img
+        src="https://images.pexels.com/photos/1540406/pexels-photo-1540406.jpeg?w=1920"
+        alt=""
+        style={{
+          position: "absolute",
+          inset: 0,
+          width: "100%",
+          height: "100%",
+          objectFit: "cover",
+          filter: "brightness(0.3)",
+        }}
+      />
+
       {/* Left quote */}
-      <div style={{ padding: "16px 14px" }}>
-        <div style={RED_LINE} />
-        <p style={QUOTE_STYLE}>
+      <div
+        style={{
+          position: "absolute",
+          top: "16px",
+          left: "16px",
+          maxWidth: "180px",
+        }}
+      >
+        <p
+          style={{
+            fontFamily: "var(--font-crimson-text), Georgia, serif",
+            fontStyle: "italic",
+            fontSize: "10px",
+            color: "rgba(255,255,255,0.45)",
+            lineHeight: "1.6",
+            margin: 0,
+          }}
+        >
           "If it doesn't hurt to write, it won't heal to hear."
         </p>
-        <p style={AUTHOR_STYLE}>Metal Lyric Philosophy</p>
+        <p
+          style={{
+            fontFamily: "var(--font-cinzel), serif",
+            fontSize: "7px",
+            letterSpacing: "0.1em",
+            color: "rgba(204,0,0,0.55)",
+            textTransform: "uppercase",
+            marginTop: "4px",
+          }}
+        >
+          Metal Lyric Philosophy
+        </p>
+      </div>
+
+      {/* Right quote */}
+      <div
+        style={{
+          position: "absolute",
+          top: "16px",
+          right: "16px",
+          maxWidth: "180px",
+          textAlign: "right",
+        }}
+      >
+        <p
+          style={{
+            fontFamily: "var(--font-crimson-text), Georgia, serif",
+            fontStyle: "italic",
+            fontSize: "10px",
+            color: "rgba(255,255,255,0.45)",
+            lineHeight: "1.6",
+            margin: 0,
+          }}
+        >
+          "Death metal — a confrontation with mortality, raw and uncompromising."
+        </p>
+        <p
+          style={{
+            fontFamily: "var(--font-cinzel), serif",
+            fontSize: "7px",
+            letterSpacing: "0.1em",
+            color: "rgba(204,0,0,0.55)",
+            textTransform: "uppercase",
+            marginTop: "4px",
+          }}
+        >
+          Chuck Schuldiner
+        </p>
       </div>
 
       {/* Centre logo */}
-      <div style={{ textAlign: "center" }}>
+      <div
+        style={{
+          position: "absolute",
+          inset: 0,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
         <h1
           style={{
             fontFamily: "var(--font-metal-mania), serif",
-            fontSize: "52px",
-            color: "#ffffff",
-            textShadow: "0 0 30px rgba(204,0,0,0.6), 0 0 60px rgba(204,0,0,0.2)",
+            fontSize: "58px",
+            color: "#fff",
+            textShadow: "0 0 40px rgba(200,0,0,0.7), 3px 3px 0 #550000",
             lineHeight: "1",
-            letterSpacing: "0.02em",
+            margin: 0,
           }}
         >
           Metal Forge
@@ -62,23 +113,14 @@ export default function SiteHeader() {
           style={{
             fontFamily: "var(--font-cinzel), serif",
             fontSize: "8px",
-            letterSpacing: "0.3em",
-            color: "rgba(255,255,255,0.4)",
-            marginTop: "10px",
+            letterSpacing: "0.28em",
+            color: "rgba(255,255,255,0.35)",
+            marginTop: "8px",
             textTransform: "uppercase",
           }}
         >
-          AI-Powered Metal Content Generator
+          AI-POWERED METAL CONTENT GENERATOR
         </p>
-      </div>
-
-      {/* Right quote */}
-      <div style={{ padding: "16px 14px", textAlign: "right" }}>
-        <div style={{ ...RED_LINE, marginLeft: "auto" }} />
-        <p style={QUOTE_STYLE}>
-          "Death metal is a confrontation with mortality — raw, honest, uncompromising."
-        </p>
-        <p style={AUTHOR_STYLE}>Chuck Schuldiner</p>
       </div>
     </header>
   );
