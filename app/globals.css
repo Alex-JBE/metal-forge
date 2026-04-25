@@ -3,6 +3,14 @@
   src: url('/fonts/Metal_Lord.otf') format('opentype');
 }
 
+@font-face {
+  font-family: 'MonumentExtended';
+  src: url('/fonts/MonumentExtended-FreeForPersonalUse/MonumentExtended-Ultrabold.otf') format('opentype');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 html, body {

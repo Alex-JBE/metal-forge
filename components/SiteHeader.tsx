@@ -36,11 +36,24 @@ export default function SiteHeader({ onLanguageChange }: Props) {
       {/* Logo + tagline + dots */}
       <div style={{position:'absolute', inset:0, display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', gap:8, zIndex:5}}>
         <motion.div initial={{opacity:0,y:-20}} animate={{opacity:1,y:0}} transition={{duration:0.8}}
-          style={{fontFamily:'MetalLord,Cinzel,serif', fontSize:88, color:'#fff', lineHeight:1, letterSpacing:'0.05em', textShadow:'0 0 50px rgba(255,80,0,0.7), 3px 3px 0 #550000'}}>
+          style={{
+            fontFamily: 'MonumentExtended, sans-serif',
+            fontSize: 'clamp(68px, 7.2vw, 118px)',
+            lineHeight: 0.9,
+            letterSpacing: '0.035em',
+            fontWeight: 800,
+            textTransform: 'uppercase',
+            textAlign: 'center',
+            background: 'linear-gradient(180deg, #f3f5f7 0%, #d7dbe0 30%, #8e949c 52%, #eef2f5 76%, #aeb4bc 100%)',
+            WebkitBackgroundClip: 'text',
+            backgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            textShadow: '0 2px 10px rgba(0,0,0,0.35)',
+          }}>
           METAL FORGE
         </motion.div>
         <motion.div initial={{opacity:0,y:-10}} animate={{opacity:1,y:0}} transition={{duration:0.8, delay:0.2}}
-          style={{fontSize:10, letterSpacing:'0.35em', color:'rgba(255,255,255,0.65)', fontFamily:'Cinzel,serif'}}>
+          style={{fontSize:'12px', letterSpacing:'0.22em', marginTop:'8px', opacity:0.9, color:'rgba(255,255,255,0.65)', fontFamily:'Cinzel,serif'}}>
           AI-POWERED METAL CONTENT GENERATOR
         </motion.div>
       </div>
