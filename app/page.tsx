@@ -57,9 +57,8 @@ export default function Home() {
           <div style={{
             width: '25%',
             flexShrink: 0,
-            backdropFilter: 'blur(14px)',
-            background: 'rgba(0,0,0,0.62)',
-            borderRight: '1px solid rgba(255,255,255,0.07)',
+            background: 'transparent',
+            backdropFilter: 'none',
           }}>
             <LeftSidebar result={lyricsResult} genre={genre} contentType={contentType} lang={lang} />
           </div>
@@ -68,8 +67,8 @@ export default function Home() {
           <div style={{
             width: '50%',
             flexShrink: 0,
-            backdropFilter: 'blur(10px)',
-            background: 'rgba(0,0,0,0.45)',
+            background: 'transparent',
+            backdropFilter: 'none',
           }}>
             <Generator
               lang={lang}
@@ -83,9 +82,8 @@ export default function Home() {
           <div style={{
             width: '25%',
             flexShrink: 0,
-            backdropFilter: 'blur(14px)',
-            background: 'rgba(0,0,0,0.62)',
-            borderLeft: '1px solid rgba(255,255,255,0.07)',
+            background: 'transparent',
+            backdropFilter: 'none',
           }}>
             <RightSidebar musicPrompt={musicPrompt} tags={tags} />
           </div>
