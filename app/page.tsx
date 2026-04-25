@@ -74,9 +74,9 @@ export default function Home() {
           </div>
           )}
 
-          {/* Center 80% */}
+          {/* Center — full width on result tab, 80% on forge */}
           <div style={{
-            width: '80%',
+            width: activeTab === 'result' ? '100%' : '80%',
             flexShrink: 0,
             overflow: 'hidden',
             background: 'transparent',

@@ -217,15 +217,14 @@ export default function Generator({ lang, onResult, onGenreChange, onContentType
 
       {/* RESULT tab */}
       {activeTab === 'result' && lyricsText && (
+        <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
         <div style={{
           width: '100%',
           maxWidth: '1200px',
-          margin: '40px auto 56px',
+          margin: '40px 0 56px',
           display: 'grid',
           gridTemplateColumns: '1fr 1fr',
           gap: '24px',
-          justifyContent: 'center',
-          justifyItems: 'stretch',
         }}>
           {/* Lyrics column */}
           <div>
@@ -273,6 +272,7 @@ export default function Generator({ lang, onResult, onGenreChange, onContentType
               {musicPromptText || '—'}
             </pre>
           </div>
+        </div>
         </div>
       )}
 
