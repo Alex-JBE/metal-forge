@@ -116,7 +116,6 @@ export default function Generator({ lang, onResult, onGenreChange, onContentType
       fontSize: '9px',
       letterSpacing: '0.03em',
       cursor: 'pointer',
-      letterSpacing: '0.1em',
       textTransform: 'uppercase' as const,
       transition: 'all 0.15s',
       whiteSpace: 'nowrap' as const,
