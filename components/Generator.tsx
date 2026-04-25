@@ -107,20 +107,21 @@ export default function Generator({ lang, onResult, onGenreChange, onContentType
 
   function pill(active: boolean): React.CSSProperties {
     return {
-      minWidth: '160px',
-      padding: '8px 12px',
-      border: `1px solid ${active ? '#cc0000' : '#444'}`,
-      background: active ? '#cc0000' : '#1a1a1a',
+      padding: '6px 10px',
+      borderRadius: '999px',
+      border: active ? '1px solid #cc0000' : '1px solid rgba(255,255,255,0.18)',
+      backgroundColor: active ? '#cc0000' : 'rgba(0,0,0,0.65)',
       color: active ? '#fff' : '#ccc',
-      borderRadius: '100px',
       fontFamily: 'Cinzel,serif',
-      fontSize: '11px',
+      fontSize: '10px',
+      letterSpacing: '0.07em',
       textAlign: 'center' as const,
-      letterSpacing: '0.03em',
       cursor: 'pointer',
       textTransform: 'uppercase' as const,
       transition: 'all 0.15s',
       whiteSpace: 'nowrap' as const,
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
     };
   }
 
@@ -153,7 +154,7 @@ export default function Generator({ lang, onResult, onGenreChange, onContentType
     }}>
 
       {/* Genre pills */}
-      <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '10px', width: '100%' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, minmax(0, 1fr))', gap: '10px', width: '100%', maxWidth: '900px', margin: '0 auto' }}>
         {GENRES.map(g => (
           <button key={g} onClick={() => selectGenre(g)} style={pill(genre === g)}>{g}</button>
         ))}
