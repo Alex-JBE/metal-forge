@@ -107,15 +107,15 @@ export default function Generator({ lang, onResult, onGenreChange, onContentType
 
   function pill(active: boolean): React.CSSProperties {
     return {
-      padding: '4px 8px',
+      padding: '10px 16px',
       borderRadius: '999px',
       border: active ? '1px solid #cc0000' : '1px solid rgba(255,255,255,0.18)',
       backgroundColor: active ? '#cc0000' : 'rgba(0,0,0,0.65)',
       color: active ? '#fff' : '#ccc',
       fontFamily: 'Cinzel,serif',
-      fontSize: '9px',
-      lineHeight: 1.1,
-      letterSpacing: '0.04em',
+      fontSize: '13px',
+      lineHeight: 1.15,
+      letterSpacing: '0.03em',
       textAlign: 'center' as const,
       cursor: 'pointer',
       textTransform: 'uppercase' as const,
@@ -125,6 +125,25 @@ export default function Generator({ lang, onResult, onGenreChange, onContentType
       textOverflow: 'ellipsis',
       justifySelf: 'stretch' as const,
       minWidth: 0,
+      minHeight: '40px',
+    };
+  }
+
+  function controlPill(active: boolean): React.CSSProperties {
+    return {
+      padding: '6px 14px',
+      borderRadius: '999px',
+      border: active ? '1px solid #cc0000' : '1px solid rgba(255,255,255,0.18)',
+      backgroundColor: active ? '#cc0000' : 'rgba(0,0,0,0.65)',
+      color: active ? '#fff' : '#ccc',
+      fontFamily: 'Cinzel,serif',
+      fontSize: '10px',
+      letterSpacing: '0.05em',
+      textAlign: 'center' as const,
+      cursor: 'pointer',
+      textTransform: 'uppercase' as const,
+      transition: 'all 0.15s',
+      whiteSpace: 'nowrap' as const,
     };
   }
 
@@ -146,101 +165,101 @@ export default function Generator({ lang, onResult, onGenreChange, onContentType
   };
 
   return (
-    <div style={{
-      color: '#ccc',
-      maxWidth: '560px',
-      margin: '0 auto',
-      padding: '12px 16px 6px',
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-    }}>
+    <div style={{ color: '#ccc', padding: '12px 16px 6px', display: 'flex', flexDirection: 'column' }}>
 
-      {/* Genre pills */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: '5px 8px', width: '100%', maxWidth: 'min(1200px, 92vw)', margin: '0 auto', alignItems: 'stretch' }}>
+      {/* Genre pills — full width */}
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(190px, 1fr))',
+        gap: '14px 18px',
+        width: '100%',
+        maxWidth: '100%',
+        margin: '0 auto',
+        alignItems: 'stretch',
+      }}>
         {GENRES.map(g => (
           <button key={g} onClick={() => selectGenre(g)} style={pill(genre === g)}>{g}</button>
         ))}
       </div>
 
-      <div style={divider} />
+      {/* Controls — centered below genres */}
+      <div style={{ maxWidth: '560px', width: '100%', margin: '0 auto', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
 
-      {/* Content Type 2×2 */}
-      <span style={label}>Content Type</span>
-      <div style={{ display: 'flex', justifyContent: 'center', gap: '6px', flexWrap: 'wrap' }}>
-        {CONTENT_TYPES.map(ct => (
-          <button key={ct} onClick={() => selectContentType(ct)} style={pill(contentType === ct)}>
-            {ct}
-          </button>
-        ))}
+        <div style={divider} />
+
+        <span style={label}>Content Type</span>
+        <div style={{ display: 'flex', justifyContent: 'center', gap: '6px', flexWrap: 'wrap' }}>
+          {CONTENT_TYPES.map(ct => (
+            <button key={ct} onClick={() => selectContentType(ct)} style={controlPill(contentType === ct)}>
+              {ct}
+            </button>
+          ))}
+        </div>
+
+        <div style={divider} />
+
+        <span style={label}>Music Prompt Type</span>
+        <div style={{ display: 'flex', justifyContent: 'center', gap: '6px' }}>
+          {PROMPT_TYPES.map(pt => (
+            <button key={pt} onClick={() => setPromptType(pt)} style={controlPill(promptType === pt)}>{pt}</button>
+          ))}
+        </div>
+
+        <div style={divider} />
+
+        <input
+          type="text"
+          value={theme}
+          onChange={e => setTheme(e.target.value)}
+          disabled={loading}
+          placeholder="Theme / direction (optional)..."
+          style={{
+            width: '80%',
+            borderRadius: '100px',
+            background: '#1a1a1a',
+            border: '1px solid #444',
+            color: '#ccc',
+            padding: '10px 18px',
+            fontSize: '12px',
+            outline: 'none',
+            fontFamily: 'Cinzel,serif',
+            marginBottom: '16px',
+          }}
+        />
+
+        <motion.button
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
+          onClick={handleForge}
+          disabled={loading}
+          style={{
+            width: '100%',
+            padding: '14px',
+            background: '#cc0000',
+            borderRadius: '100px',
+            fontFamily: 'Cinzel,serif',
+            fontSize: '13px',
+            letterSpacing: '0.25em',
+            color: '#fff',
+            textTransform: 'uppercase',
+            border: 'none',
+            cursor: loading ? 'not-allowed' : 'pointer',
+            opacity: loading ? 0.7 : 1,
+          }}
+        >
+          {loading ? (
+            <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
+              <motion.span
+                animate={{ rotate: 360 }}
+                transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
+                style={{ display: 'inline-block', width: 14, height: 14, border: '2px solid rgba(255,255,255,0.3)', borderTopColor: '#fff', borderRadius: '50%' }}
+              />
+              FORGING…
+            </span>
+          ) : 'FORGE'}
+        </motion.button>
+
       </div>
-
-      <div style={divider} />
-
-      {/* Prompt Type */}
-      <span style={label}>Music Prompt Type</span>
-      <div style={{ display: 'flex', justifyContent: 'center', gap: '6px' }}>
-        {PROMPT_TYPES.map(pt => (
-          <button key={pt} onClick={() => setPromptType(pt)} style={pill(promptType === pt)}>{pt}</button>
-        ))}
-      </div>
-
-      <div style={divider} />
-
-      {/* Theme input */}
-      <input
-        type="text"
-        value={theme}
-        onChange={e => setTheme(e.target.value)}
-        disabled={loading}
-        placeholder="Theme / direction (optional)..."
-        style={{
-          width: '80%',
-          borderRadius: '100px',
-          background: '#1a1a1a',
-          border: '1px solid #444',
-          color: '#ccc',
-          padding: '10px 18px',
-          fontSize: '12px',
-          outline: 'none',
-          fontFamily: 'Cinzel,serif',
-          marginBottom: '16px',
-        }}
-      />
-
-      {/* FORGE button */}
-      <motion.button
-        whileHover={{ scale: 1.02 }}
-        whileTap={{ scale: 0.98 }}
-        onClick={handleForge}
-        disabled={loading}
-        style={{
-          width: '100%',
-          padding: '14px',
-          background: '#cc0000',
-          borderRadius: '100px',
-          fontFamily: 'Cinzel,serif',
-          fontSize: '13px',
-          letterSpacing: '0.25em',
-          color: '#fff',
-          textTransform: 'uppercase',
-          border: 'none',
-          cursor: loading ? 'not-allowed' : 'pointer',
-          opacity: loading ? 0.7 : 1,
-        }}
-      >
-        {loading ? (
-          <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
-            <motion.span
-              animate={{ rotate: 360 }}
-              transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
-              style={{ display: 'inline-block', width: 14, height: 14, border: '2px solid rgba(255,255,255,0.3)', borderTopColor: '#fff', borderRadius: '50%' }}
-            />
-            FORGING…
-          </span>
-        ) : 'FORGE'}
-      </motion.button>
-
     </div>
   );
 }
