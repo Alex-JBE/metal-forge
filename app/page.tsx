@@ -17,7 +17,7 @@ export default function Home() {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-      <SiteHeader onLanguageChange={setLang} />
+      <SiteHeader language={lang} onLanguageChange={setLang} />
 
       <div style={{ display: 'flex', flex: 1, width: '100%' }}>
 
