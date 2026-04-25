@@ -107,13 +107,13 @@ export default function Generator({ lang, onResult, onGenreChange, onContentType
 
   function pill(active: boolean): React.CSSProperties {
     return {
-      padding: '3px 8px',
+      padding: '5px 12px',
       border: `1px solid ${active ? '#cc0000' : '#444'}`,
       background: active ? '#cc0000' : '#1a1a1a',
       color: active ? '#fff' : '#ccc',
       borderRadius: '100px',
       fontFamily: 'Cinzel,serif',
-      fontSize: '9px',
+      fontSize: '11px',
       letterSpacing: '0.03em',
       cursor: 'pointer',
       textTransform: 'uppercase' as const,
