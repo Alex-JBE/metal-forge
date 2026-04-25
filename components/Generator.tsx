@@ -107,14 +107,15 @@ export default function Generator({ lang, onResult, onGenreChange, onContentType
 
   function pill(active: boolean): React.CSSProperties {
     return {
-      padding: '6px 10px',
+      padding: '4px 8px',
       borderRadius: '999px',
       border: active ? '1px solid #cc0000' : '1px solid rgba(255,255,255,0.18)',
       backgroundColor: active ? '#cc0000' : 'rgba(0,0,0,0.65)',
       color: active ? '#fff' : '#ccc',
       fontFamily: 'Cinzel,serif',
-      fontSize: '10px',
-      letterSpacing: '0.07em',
+      fontSize: '9px',
+      lineHeight: 1.1,
+      letterSpacing: '0.04em',
       textAlign: 'center' as const,
       cursor: 'pointer',
       textTransform: 'uppercase' as const,
@@ -122,13 +123,15 @@ export default function Generator({ lang, onResult, onGenreChange, onContentType
       whiteSpace: 'nowrap' as const,
       overflow: 'hidden',
       textOverflow: 'ellipsis',
+      justifySelf: 'stretch' as const,
+      minWidth: 0,
     };
   }
 
   const divider: React.CSSProperties = {
     height: '1px',
     background: 'rgba(255,255,255,0.07)',
-    margin: '18px 0',
+    margin: '8px 0',
   };
 
   const label: React.CSSProperties = {
@@ -147,14 +150,14 @@ export default function Generator({ lang, onResult, onGenreChange, onContentType
       color: '#ccc',
       maxWidth: '560px',
       margin: '0 auto',
-      padding: '24px 16px',
+      padding: '12px 16px 6px',
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
     }}>
 
       {/* Genre pills */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, minmax(0, 1fr))', gap: '10px', width: '100%', maxWidth: '900px', margin: '0 auto' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: '5px 8px', width: '100%', maxWidth: 'min(1200px, 92vw)', margin: '0 auto', alignItems: 'stretch' }}>
         {GENRES.map(g => (
           <button key={g} onClick={() => selectGenre(g)} style={pill(genre === g)}>{g}</button>
         ))}
