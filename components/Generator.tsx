@@ -86,23 +86,19 @@ export default function Generator({ lang, onResult, onGenreChange, onContentType
         if (done) break;
         lyrics += dec.decode(value, { stream: true });
       }
-      const musicPrompt = buildMusicPrompt(genre, contentType, promptType, lang);
+      const marker = '[MUSIC_PROMPT]';
+      const markerIdx = lyrics.indexOf(marker);
+      const lyricsOnly = markerIdx !== -1 ? lyrics.slice(0, markerIdx).trim() : lyrics.trim();
+      const musicPrompt = markerIdx !== -1 ? lyrics.slice(markerIdx + marker.length).trim() : '';
       const tags = buildTags(genre, contentType, lang);
-      setLyricsText(lyrics);
+      setLyricsText(lyricsOnly);
       setActiveTab('result');
-      onResult(lyrics, musicPrompt, tags);
+      onResult(lyricsOnly, musicPrompt, tags);
     } catch (err) {
       onResult(err instanceof Error ? err.message : 'Generation failed.', '', []);
     } finally {
       setLoading(false);
     }
-  }
-
-  function buildMusicPrompt(g: string, ct: string, pt: string, l: string): string {
-    const style = g.toLowerCase();
-    const base = `${style} metal, ${ct.toLowerCase()}, ${pt} style`;
-    const langNote = l !== 'EN' ? `, lyrics in ${l}` : '';
-    return base + langNote;
   }
 
   function buildTags(g: string, ct: string, l: string): string[] {

@@ -36,9 +36,17 @@ export async function POST(req: NextRequest) {
     systemBlocks.push({ type: "text", text: LANG_INSTRUCTIONS[language] });
   }
 
+  systemBlocks.push({
+    type: "text",
+    text: `After completing the main content, append the following section on a new line — no extra commentary, no markdown, exactly this format:
+
+[MUSIC_PROMPT]
+<one paragraph of real music production tags for Suno/Udio: BPM, tempo descriptor, tuning, key instruments, guitar tone, drum style, vocal style, atmosphere, mood, sonic influences, production style. Write as comma-separated descriptors, not sentences.>`,
+  });
+
   const stream = await client.messages.stream({
     model: "claude-sonnet-4-6",
-    max_tokens: 2048,
+    max_tokens: 3000,
     system: systemBlocks,
     messages: [{ role: "user", content: userMessage }],
   });
