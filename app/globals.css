@@ -1,119 +1,21 @@
 @font-face {
   font-family: 'MetalLord';
   src: url('/fonts/Metal_Lord.otf') format('opentype');
-  font-weight: normal;
-  font-style: normal;
 }
 
-@import "tailwindcss";
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-@theme inline {
-  --font-metal-mania: var(--font-metal-mania);
-  --font-cinzel: var(--font-cinzel);
-  --font-crimson-text: var(--font-crimson-text);
-  --font-share-tech-mono: var(--font-share-tech-mono);
+html, body {
+  height: 100%;
+  font-family: 'Cinzel', serif;
+  overflow-x: hidden;
+  background: #000 url('https://images.pexels.com/photos/1540406/pexels-photo-1540406.jpeg?w=1920') center/cover fixed;
+  color: #f0f0f0;
 }
 
-/* ─── Base ─────────────────────────────────────────── */
-
-body {
-  background: #000000;
-  color: #cccccc;
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.58);
+  pointer-events: none; z-index: 0;
 }
-
-/* ─── Font utilities ────────────────────────────────── */
-
-.font-metal-mania {
-  font-family: var(--font-metal-mania), "Impact", serif;
-}
-
-.font-cinzel {
-  font-family: var(--font-cinzel), "Palatino Linotype", serif;
-}
-
-.font-crimson-text {
-  font-family: var(--font-crimson-text), Georgia, serif;
-}
-
-.font-share-tech-mono {
-  font-family: var(--font-share-tech-mono), "Courier New", monospace;
-}
-
-/* ─── Fog drift ─────────────────────────────────────── */
-
-@keyframes drift1 {
-  from { transform: translateX(-10%) translateY(0); }
-  to   { transform: translateX(10%) translateY(-5%); }
-}
-
-@keyframes drift2 {
-  from { transform: translateX(5%) translateY(5%); }
-  to   { transform: translateX(-8%) translateY(-8%); }
-}
-
-/* ─── Forge button ──────────────────────────────────── */
-
-.forge-btn {
-  position: relative;
-  overflow: hidden;
-}
-
-@keyframes forge-flash {
-  0%   { box-shadow: 0 0 8px rgba(204,0,0,0.4); }
-  20%  { box-shadow: 0 0 30px rgba(204,0,0,0.9), 0 0 60px rgba(204,0,0,0.4), 0 0 100px rgba(204,0,0,0.15); }
-  100% { box-shadow: 0 0 8px rgba(204,0,0,0.4); }
-}
-
-.forge-flash {
-  animation: forge-flash 0.4s ease-out forwards;
-}
-
-/* ─── Line reveal ───────────────────────────────────── */
-
-@keyframes line-appear {
-  from { opacity: 0; transform: translateY(10px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-.line-reveal {
-  opacity: 0;
-  animation: line-appear 0.3s ease-out forwards;
-}
-
-/* ─── Skeleton loader ───────────────────────────────── */
-
-.skeleton-line {
-  border-radius: 2px;
-  background: linear-gradient(
-    90deg,
-    #0d0d0d 25%,
-    #1a1a1a 50%,
-    #0d0d0d 75%
-  );
-  background-size: 200% 100%;
-  animation: skeleton-shimmer 1.5s infinite;
-}
-
-@keyframes skeleton-shimmer {
-  0%   { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
-}
-
-/* ─── History card scroll-in ────────────────────────── */
-
-.history-card {
-  opacity: 0;
-  transform: translateY(30px);
-  transition: opacity 0.5s ease-out, transform 0.5s ease-out;
-}
-
-.history-card.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* ─── Scrollbar ─────────────────────────────────────── */
-
-::-webkit-scrollbar { width: 4px; }
-::-webkit-scrollbar-track { background: #000; }
-::-webkit-scrollbar-thumb { background: #3a0000; border-radius: 2px; }
