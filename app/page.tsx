@@ -61,9 +61,9 @@ export default function Home() {
 
         <div style={{ display: 'flex', flex: 1, width: '100%' }}>
 
-          {/* Left 12% */}
+          {/* Left 10% */}
           <div style={{
-            width: '2%',
+            width: '10%',
             flexShrink: 0,
             background: 'transparent',
             backdropFilter: 'none',
@@ -71,10 +71,11 @@ export default function Home() {
             <LeftSidebar result={lyricsResult} genre={genre} contentType={contentType} lang={lang} />
           </div>
 
-          {/* Center 76% */}
+          {/* Center 80% */}
           <div style={{
-            width: '96%',
+            width: '80%',
             flexShrink: 0,
+            overflow: 'hidden',
             background: 'transparent',
             backdropFilter: 'none',
           }}>
@@ -86,9 +87,9 @@ export default function Home() {
             />
           </div>
 
-          {/* Right 12% */}
+          {/* Right 10% */}
           <div style={{
-            width: '2%',
+            width: '10%',
             flexShrink: 0,
             background: 'transparent',
             backdropFilter: 'none',

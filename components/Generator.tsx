@@ -152,7 +152,7 @@ export default function Generator({ lang, onResult, onGenreChange, onContentType
     }}>
 
       {/* Genre pills */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: '6px', width: '100%' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(6, minmax(0, 1fr))', gap: '6px', width: '100%' }}>
         {GENRES.map(g => (
           <button key={g} onClick={() => selectGenre(g)} style={pill(genre === g)}>{g}</button>
         ))}
