@@ -220,22 +220,30 @@ export default function Generator({ lang, onResult, onGenreChange, onContentType
         <div style={{
           maxWidth: '1200px',
           margin: '40px auto 56px',
-          padding: '24px 32px',
-          background: 'rgba(0,0,0,0.7)',
-          borderRadius: '16px',
-          border: '1px solid rgba(255,255,255,0.12)',
           display: 'grid',
           gridTemplateColumns: '1.1fr 0.9fr',
           gap: '32px',
-          maxHeight: '70vh',
-          overflow: 'auto',
         }}>
           {/* Lyrics column */}
           <div>
             <p style={{ fontFamily: 'Cinzel,serif', fontSize: '9px', letterSpacing: '0.25em', color: '#cc0000', textTransform: 'uppercase', marginBottom: '14px' }}>
               Lyrics
             </p>
-            <pre style={{ fontFamily: 'Georgia,serif', fontSize: '13px', lineHeight: 1.5, color: '#f0f0f0', whiteSpace: 'pre-wrap', wordBreak: 'break-word', margin: 0 }}>
+            <pre style={{
+              backgroundColor: 'rgba(0,0,0,0.9)',
+              borderRadius: '12px',
+              border: '1px solid rgba(255,255,255,0.16)',
+              padding: '16px 18px 12px',
+              color: '#fff',
+              fontFamily: 'Georgia,serif',
+              fontSize: '13px',
+              lineHeight: 1.5,
+              whiteSpace: 'pre-wrap',
+              wordBreak: 'break-word',
+              maxHeight: '60vh',
+              overflowY: 'auto',
+              margin: 0,
+            }}>
               {lyricsText}
             </pre>
           </div>
@@ -244,7 +252,21 @@ export default function Generator({ lang, onResult, onGenreChange, onContentType
             <p style={{ fontFamily: 'Cinzel,serif', fontSize: '9px', letterSpacing: '0.25em', color: '#cc0000', textTransform: 'uppercase', marginBottom: '14px' }}>
               Music Prompt
             </p>
-            <pre style={{ fontFamily: 'Georgia,serif', fontSize: '13px', lineHeight: 1.5, color: '#d0d4d8', whiteSpace: 'pre-wrap', wordBreak: 'break-word', margin: 0 }}>
+            <pre style={{
+              backgroundColor: 'rgba(0,0,0,0.9)',
+              borderRadius: '12px',
+              border: '1px solid rgba(255,255,255,0.16)',
+              padding: '16px 18px 12px',
+              color: '#fff',
+              fontFamily: 'Georgia,serif',
+              fontSize: '13px',
+              lineHeight: 1.5,
+              whiteSpace: 'pre-wrap',
+              wordBreak: 'break-word',
+              maxHeight: '60vh',
+              overflowY: 'auto',
+              margin: 0,
+            }}>
               {musicPromptText || '—'}
             </pre>
           </div>
