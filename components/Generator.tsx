@@ -228,7 +228,7 @@ export default function Generator({ lang, onResult, onGenreChange, onContentType
         }}>
           {/* Lyrics column */}
           <div>
-            <p style={{ fontFamily: 'Cinzel,serif', fontSize: '11px', letterSpacing: '0.24em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.85)', marginBottom: '10px', borderBottom: '1px solid rgba(255,0,0,0.6)', paddingBottom: '6px' }}>
+            <p style={{ fontFamily: 'Cinzel,serif', textAlign: 'center', fontSize: '12px', letterSpacing: '0.22em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.9)', margin: '0 0 10px 0', borderBottom: '1px solid rgba(255,255,255,0.35)', paddingBottom: '6px' }}>
               Lyrics Prompt
             </p>
             <pre style={{
@@ -251,7 +251,7 @@ export default function Generator({ lang, onResult, onGenreChange, onContentType
           </div>
           {/* Music Prompt column */}
           <div>
-            <p style={{ fontFamily: 'Cinzel,serif', fontSize: '11px', letterSpacing: '0.24em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.85)', marginBottom: '10px', borderBottom: '1px solid rgba(255,0,0,0.6)', paddingBottom: '6px' }}>
+            <p style={{ fontFamily: 'Cinzel,serif', textAlign: 'center', fontSize: '12px', letterSpacing: '0.22em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.9)', margin: '0 0 10px 0', borderBottom: '1px solid rgba(255,255,255,0.35)', paddingBottom: '6px' }}>
               Music Prompt
             </p>
             <pre style={{
