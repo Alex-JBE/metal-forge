@@ -37,9 +37,10 @@ interface Props {
   onResult: (lyrics: string, musicPrompt: string, tags: string[]) => void;
   onGenreChange: (genre: string) => void;
   onContentTypeChange: (ct: string) => void;
+  onTabChange?: (tab: 'forge' | 'result') => void;
 }
 
-export default function Generator({ lang, onResult, onGenreChange, onContentTypeChange }: Props) {
+export default function Generator({ lang, onResult, onGenreChange, onContentTypeChange, onTabChange }: Props) {
   const [genre, setGenre] = useState('Death Metal');
   const [contentType, setContentType] = useState('Lyrics');
   const [promptType, setPromptType] = useState('Suno');
@@ -47,6 +48,11 @@ export default function Generator({ lang, onResult, onGenreChange, onContentType
   const [loading, setLoading] = useState(false);
   const [activeTab, setActiveTab] = useState<'forge' | 'result'>('forge');
   const [lyricsText, setLyricsText] = useState('');
+
+  function switchTab(tab: 'forge' | 'result') {
+    setActiveTab(tab);
+    onTabChange?.(tab);
+  }
 
   function selectGenre(g: string) {
     setGenre(g);
@@ -92,7 +98,7 @@ export default function Generator({ lang, onResult, onGenreChange, onContentType
       const musicPrompt = markerIdx !== -1 ? lyrics.slice(markerIdx + marker.length).trim() : '';
       const tags = buildTags(genre, contentType, lang);
       setLyricsText(lyricsOnly);
-      setActiveTab('result');
+      switchTab('result');
       onResult(lyricsOnly, musicPrompt, tags);
     } catch (err) {
       onResult(err instanceof Error ? err.message : 'Generation failed.', '', []);
@@ -170,7 +176,7 @@ export default function Generator({ lang, onResult, onGenreChange, onContentType
       {/* Tabs */}
       <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '16px', gap: '8px' }}>
         <button
-          onClick={() => setActiveTab('forge')}
+          onClick={() => switchTab('forge')}
           style={{
             padding: '6px 18px',
             borderRadius: '999px',
@@ -188,7 +194,7 @@ export default function Generator({ lang, onResult, onGenreChange, onContentType
           FORGE
         </button>
         <button
-          onClick={() => setActiveTab('result')}
+          onClick={() => switchTab('result')}
           style={{
             padding: '6px 18px',
             borderRadius: '999px',

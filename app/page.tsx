@@ -31,6 +31,7 @@ export default function Home() {
   const [musicPrompt, setMusicPrompt] = useState('');
   const [tags, setTags] = useState<string[]>([]);
   const [cur, setCur] = useState(0);
+  const [activeTab, setActiveTab] = useState<'forge' | 'result'>('forge');
 
   useEffect(() => {
     const id = setInterval(() => setCur(c => (c + 1) % SLIDES.length), 5000);
@@ -62,6 +63,7 @@ export default function Home() {
         <div style={{ display: 'flex', flex: 1, width: '100%' }}>
 
           {/* Left 10% */}
+          {activeTab === 'forge' && (
           <div style={{
             width: '10%',
             flexShrink: 0,
@@ -70,6 +72,7 @@ export default function Home() {
           }}>
             <LeftSidebar result={lyricsResult} genre={genre} contentType={contentType} lang={lang} />
           </div>
+          )}
 
           {/* Center 80% */}
           <div style={{
@@ -84,10 +87,12 @@ export default function Home() {
               onResult={(lyrics, prompt, t) => { setLyricsResult(lyrics); setMusicPrompt(prompt); setTags(t); }}
               onGenreChange={setGenre}
               onContentTypeChange={setContentType}
+              onTabChange={setActiveTab}
             />
           </div>
 
           {/* Right 10% */}
+          {activeTab === 'forge' && (
           <div style={{
             width: '10%',
             flexShrink: 0,
@@ -96,6 +101,7 @@ export default function Home() {
           }}>
             <RightSidebar musicPrompt={musicPrompt} tags={tags} />
           </div>
+          )}
 
         </div>
 
