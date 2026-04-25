@@ -1,19 +1,7 @@
 'use client';
 
-import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
-
-const LINKS = [
-  { name: 'Encyclopaedia Metallum', url: 'https://www.metal-archives.com', desc: 'The ultimate metal band archive' },
-  { name: 'Metal Storm', url: 'https://www.metalstorm.net', desc: 'Reviews & ratings' },
-  { name: 'Decibel Magazine', url: 'https://www.decibelmagazine.com', desc: 'Metal journalism' },
-  { name: 'No Clean Singing', url: 'https://www.nocleansinging.com', desc: 'Extreme metal blog' },
-  { name: 'Bandcamp Death Metal', url: 'https://bandcamp.com/tag/death-metal', desc: 'Death metal releases' },
-  { name: 'Metal Injection', url: 'https://www.metalinjection.net', desc: 'News & interviews' },
-  { name: 'Angry Metal Guy', url: 'https://www.angrymetalguy.com', desc: 'Critical metal reviews' },
-  { name: 'r/Deathmetal', url: 'https://reddit.com/r/Deathmetal', desc: 'Reddit community' },
-];
 
 interface Props {
   musicPrompt: string;
@@ -85,12 +73,9 @@ const btnStyle: React.CSSProperties = {
 };
 
 export default function RightSidebar({ musicPrompt, tags }: Props) {
-  const [hovered, setHovered] = useState<number | null>(null);
-
   return (
     <aside style={{ padding: '16px 14px', height: '100%' }}>
 
-      {/* Header */}
       <p style={{
         fontFamily: 'Cinzel,serif',
         fontSize: '8px',
@@ -103,55 +88,12 @@ export default function RightSidebar({ musicPrompt, tags }: Props) {
         Music Prompt
       </p>
 
-      {!musicPrompt ? (
-        /* Empty state — resource links */
-        <div>
-          {LINKS.map((link, i) => (
-            <motion.a
-              key={link.url}
-              href={link.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              initial={{ opacity: 0, x: 10 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: i * 0.07 }}
-              onMouseEnter={() => setHovered(i)}
-              onMouseLeave={() => setHovered(null)}
-              style={{ display: 'flex', alignItems: 'flex-start', gap: '7px', marginBottom: '11px', textDecoration: 'none' }}
-            >
-              <span style={{ color: '#cc0000', fontSize: '7px', marginTop: '3px', flexShrink: 0 }}>●</span>
-              <div>
-                <span style={{
-                  fontFamily: 'Cinzel,serif',
-                  fontSize: '9px',
-                  letterSpacing: '0.08em',
-                  color: hovered === i ? '#cc0000' : '#aaa',
-                  display: 'block',
-                  marginBottom: '2px',
-                  transition: 'color 0.2s',
-                }}>
-                  {link.name}
-                </span>
-                <span style={{
-                  fontFamily: 'Georgia,serif',
-                  fontSize: '9px',
-                  color: '#777',
-                  display: 'block',
-                }}>
-                  {link.desc}
-                </span>
-              </div>
-            </motion.a>
-          ))}
-        </div>
-      ) : (
-        /* Result state */
+      {musicPrompt && (
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
         >
-          {/* Music prompt text */}
           <p style={{
             fontFamily: 'Georgia,serif',
             fontSize: '13px',
@@ -163,7 +105,6 @@ export default function RightSidebar({ musicPrompt, tags }: Props) {
             {musicPrompt}
           </p>
 
-          {/* Metatags */}
           {tags.length > 0 && (
             <div style={{ marginBottom: '20px' }}>
               <p style={{
@@ -196,7 +137,6 @@ export default function RightSidebar({ musicPrompt, tags }: Props) {
             </div>
           )}
 
-          {/* Action buttons */}
           <div style={{ display: 'flex', gap: '6px' }}>
             <button style={btnStyle} onClick={() => downloadTxt(musicPrompt, 'music-prompt.txt')}>
               Download TXT

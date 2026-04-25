@@ -19,3 +19,5 @@ body::before {
   background: rgba(0,0,0,0.58);
   pointer-events: none; z-index: 0;
 }
+
+.cols { min-height: calc(100vh - 280px); }
