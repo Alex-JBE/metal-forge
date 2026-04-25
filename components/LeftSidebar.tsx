@@ -87,12 +87,18 @@ export default function LeftSidebar({ result, genre, contentType, lang }: Props)
 
       <p style={{
         fontFamily: 'Cinzel,serif',
-        fontSize: '8px',
-        letterSpacing: '0.22em',
-        color: '#cc0000',
+        fontSize: '13px',
+        letterSpacing: '0.25em',
+        color: '#ffffff',
         textTransform: 'uppercase',
         textAlign: 'center',
+        padding: '10px 24px',
+        background: 'rgba(204,0,0,0.15)',
+        border: '1px solid rgba(204,0,0,0.4)',
+        borderRadius: '4px',
         marginBottom: '20px',
+        display: 'inline-block',
+        width: '100%',
       }}>
         Text Prompt
       </p>

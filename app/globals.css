@@ -9,7 +9,7 @@ html, body {
   height: 100%;
   font-family: 'Cinzel', serif;
   overflow-x: hidden;
-  background: #000 url('https://images.pexels.com/photos/1540406/pexels-photo-1540406.jpeg?w=1920') center/cover fixed;
+  background: #000;
   color: #f0f0f0;
 }
 
