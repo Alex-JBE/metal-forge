@@ -45,6 +45,8 @@ export default function Generator({ lang, onResult, onGenreChange, onContentType
   const [promptType, setPromptType] = useState('Suno');
   const [theme, setTheme] = useState('');
   const [loading, setLoading] = useState(false);
+  const [activeTab, setActiveTab] = useState<'forge' | 'result'>('forge');
+  const [lyricsText, setLyricsText] = useState('');
 
   function selectGenre(g: string) {
     setGenre(g);
@@ -86,6 +88,8 @@ export default function Generator({ lang, onResult, onGenreChange, onContentType
       }
       const musicPrompt = buildMusicPrompt(genre, contentType, promptType, lang);
       const tags = buildTags(genre, contentType, lang);
+      setLyricsText(lyrics);
+      setActiveTab('result');
       onResult(lyrics, musicPrompt, tags);
     } catch (err) {
       onResult(err instanceof Error ? err.message : 'Generation failed.', '', []);
@@ -166,6 +170,65 @@ export default function Generator({ lang, onResult, onGenreChange, onContentType
 
   return (
     <div style={{ color: '#ccc', padding: '12px 16px 6px', display: 'flex', flexDirection: 'column' }}>
+
+      {/* Tabs */}
+      <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '16px', gap: '8px' }}>
+        <button
+          onClick={() => setActiveTab('forge')}
+          style={{
+            padding: '6px 18px',
+            borderRadius: '999px',
+            border: '1px solid rgba(255,255,255,0.25)',
+            fontSize: '11px',
+            letterSpacing: '0.16em',
+            textTransform: 'uppercase',
+            backgroundColor: activeTab === 'forge' ? 'rgba(255,0,0,0.8)' : 'rgba(0,0,0,0.6)',
+            color: '#fff',
+            opacity: activeTab === 'forge' ? 1 : 0.7,
+            cursor: 'pointer',
+            transition: 'background-color 160ms ease, opacity 160ms ease',
+          }}
+        >
+          FORGE
+        </button>
+        <button
+          onClick={() => setActiveTab('result')}
+          style={{
+            padding: '6px 18px',
+            borderRadius: '999px',
+            border: '1px solid rgba(255,255,255,0.25)',
+            fontSize: '11px',
+            letterSpacing: '0.16em',
+            textTransform: 'uppercase',
+            backgroundColor: activeTab === 'result' ? 'rgba(255,0,0,0.8)' : 'rgba(0,0,0,0.6)',
+            color: '#fff',
+            opacity: activeTab === 'result' ? 1 : 0.7,
+            cursor: 'pointer',
+            transition: 'background-color 160ms ease, opacity 160ms ease',
+          }}
+        >
+          RESULT
+        </button>
+      </div>
+
+      {/* RESULT tab */}
+      {activeTab === 'result' && lyricsText && (
+        <div style={{ maxWidth: '760px', width: '100%', margin: '0 auto' }}>
+          <pre style={{
+            fontFamily: 'Georgia, serif',
+            fontSize: '15px',
+            lineHeight: 1.85,
+            color: '#f0f0f0',
+            whiteSpace: 'pre-wrap',
+            wordBreak: 'break-word',
+          }}>
+            {lyricsText}
+          </pre>
+        </div>
+      )}
+
+      {/* FORGE tab */}
+      {activeTab === 'forge' && <>
 
       {/* Genre pills — full width */}
       <div style={{
@@ -260,6 +323,8 @@ export default function Generator({ lang, onResult, onGenreChange, onContentType
         </motion.button>
 
       </div>
+      </>}
+
     </div>
   );
 }
