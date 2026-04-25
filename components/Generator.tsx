@@ -107,7 +107,7 @@ export default function Generator({ lang, onResult, onGenreChange, onContentType
 
   function pill(active: boolean): React.CSSProperties {
     return {
-      padding: '6px 8px',
+      padding: '7px 4px',
       border: `1px solid ${active ? '#cc0000' : '#444'}`,
       background: active ? '#cc0000' : '#1a1a1a',
       color: active ? '#fff' : '#ccc',
@@ -120,6 +120,8 @@ export default function Generator({ lang, onResult, onGenreChange, onContentType
       textTransform: 'uppercase' as const,
       transition: 'all 0.15s',
       whiteSpace: 'nowrap' as const,
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
     };
   }
 
