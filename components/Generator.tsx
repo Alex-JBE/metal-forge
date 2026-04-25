@@ -92,9 +92,9 @@ export default function Generator({ lang, onResult, onGenreChange, onContentType
   function pill(active: boolean): React.CSSProperties {
     return {
       padding: '8px 16px',
-      border: `1px solid ${active ? '#cc0000' : 'rgba(255,255,255,0.1)'}`,
-      background: active ? 'rgba(204,0,0,0.18)' : 'rgba(0,0,0,0.4)',
-      color: active ? '#fff' : 'rgba(255,255,255,0.45)',
+      border: `1px solid ${active ? '#cc0000' : '#444'}`,
+      background: active ? '#cc0000' : '#1a1a1a',
+      color: active ? '#fff' : '#ccc',
       borderRadius: '100px',
       fontFamily: 'Cinzel,serif',
       fontSize: '13px',
@@ -175,8 +175,8 @@ export default function Generator({ lang, onResult, onGenreChange, onContentType
         style={{
           width: '80%',
           borderRadius: '100px',
-          background: 'rgba(0,0,0,0.5)',
-          border: '1px solid rgba(255,255,255,0.12)',
+          background: '#1a1a1a',
+          border: '1px solid #444',
           color: '#ccc',
           padding: '10px 18px',
           fontSize: '12px',
