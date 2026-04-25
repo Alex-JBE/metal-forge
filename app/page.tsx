@@ -63,7 +63,7 @@ export default function Home() {
 
           {/* Left 12% */}
           <div style={{
-            width: '3%',
+            width: '2%',
             flexShrink: 0,
             background: 'transparent',
             backdropFilter: 'none',
@@ -73,7 +73,7 @@ export default function Home() {
 
           {/* Center 76% */}
           <div style={{
-            width: '94%',
+            width: '96%',
             flexShrink: 0,
             background: 'transparent',
             backdropFilter: 'none',
@@ -88,7 +88,7 @@ export default function Home() {
 
           {/* Right 12% */}
           <div style={{
-            width: '3%',
+            width: '2%',
             flexShrink: 0,
             background: 'transparent',
             backdropFilter: 'none',
