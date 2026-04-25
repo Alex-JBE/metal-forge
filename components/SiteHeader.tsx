@@ -71,8 +71,8 @@ export default function SiteHeader({ language, onLanguageChange }: Props) {
         >
           <h1
             style={{
-              fontFamily: "var(--font-metal-mania), serif",
-              fontSize: "72px",
+              fontFamily: "'MetalLord', serif",
+              fontSize: "80px",
               color: "#fff",
               textShadow: "0 0 50px rgba(200,0,0,0.8), 3px 3px 0 #550000",
               lineHeight: "1",
