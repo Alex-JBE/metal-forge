@@ -218,11 +218,14 @@ export default function Generator({ lang, onResult, onGenreChange, onContentType
       {/* RESULT tab */}
       {activeTab === 'result' && lyricsText && (
         <div style={{
+          width: '100%',
           maxWidth: '1200px',
           margin: '40px auto 56px',
           display: 'grid',
-          gridTemplateColumns: '1.1fr 0.9fr',
-          gap: '32px',
+          gridTemplateColumns: '1fr 1fr',
+          gap: '24px',
+          justifyContent: 'center',
+          justifyItems: 'stretch',
         }}>
           {/* Lyrics column */}
           <div>
