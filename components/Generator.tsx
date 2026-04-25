@@ -4,13 +4,29 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 
 const GENRES = [
-  'Death Metal', 'Black Metal', 'Doom Metal', 'Technical Death', 'Melodic Death',
-  'Brutal Death', 'Atmospheric Black', 'Blackened Death', 'Funeral Doom', 'Sludge Metal',
-  'Thrash Metal', 'Grindcore', 'Deathgrind', 'War Metal', 'Depressive Black',
-  'Symphonic Black', 'Post-Metal', 'Death-Doom', 'Power Metal', 'Viking Metal',
-  'Folk Metal', 'Gothic Metal', 'Speed Metal', 'Goregrind', 'Progressive Metal',
-  'Industrial Metal', 'Stoner Metal', 'Old School Death', 'Slam Death', 'Drone Metal',
-  'Noise Metal', 'Mathcore',
+  'Death Metal','Old School Death','Brutal Death','Technical Death',
+  'Melodic Death','Cavernous Death','Dissonant Death','Slam Death',
+  'Deathgrind','Goregrind',
+  'Black Metal','Atmospheric Black','Depressive Black','Symphonic Black',
+  'Bestial Black','Blackened Death','War Metal','Raw Black','Ambient Black',
+  'Post-Black','Blackgaze',
+  'Doom Metal','Funeral Doom','Death-Doom','Stoner Doom','Drone Metal',
+  'Sludge Metal','Post-Metal','Atmospheric Sludge',
+  'Thrash Metal','Crossover Thrash','Speed Metal',
+  'Power Metal','Epic Metal','Symphonic Power',
+  'Heavy Metal','NWOBHM','Traditional Heavy',
+  'Viking Metal','Folk Metal','Pagan Metal','Heathen Metal','Celtic Metal',
+  'Gothic Metal','Symphonic Metal','Operatic Metal',
+  'Grindcore','Powerviolence','Mathcore','Noisecore',
+  'Progressive Metal','Djent','Avant-garde Metal',
+  'Industrial Metal','EBM Metal','Cyber Metal',
+  'Nu-Metal','Alternative Metal','Groove Metal',
+  'Southern Metal','Desert Metal','Psychedelic Metal',
+  'Ambient Metal','Instrumental Metal','Neoclassical Metal',
+  'Pirate Metal','Medieval Metal','Oriental Metal',
+  'Noise Metal','Experimental Metal','Drone Doom',
+  'Crust Punk','D-Beat','Anarcho Metal',
+  'Shoegaze Metal','Post-Rock Metal','Sludgecore',
 ];
 
 const CONTENT_TYPES = ['Lyrics', 'Intro Monologue', 'Outro Text', 'Album Story'];
