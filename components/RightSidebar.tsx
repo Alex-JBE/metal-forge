@@ -1,5 +1,7 @@
 "use client";
 
+import { motion } from "framer-motion";
+
 const LINKS = [
   { name: "Encyclopaedia Metallum", url: "https://www.metal-archives.com", desc: "The ultimate metal band archive" },
   { name: "Metal Storm", url: "https://www.metalstorm.net", desc: "Reviews & ratings" },
@@ -29,9 +31,14 @@ export default function RightSidebar() {
         Metal Resources
       </p>
 
-      {LINKS.map((link) => (
-        <a
+      {LINKS.map((link, i) => (
+        <motion.div
           key={link.url}
+          initial={{ opacity: 0, x: -10 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: i * 0.08 }}
+        >
+        <a
           href={link.url}
           target="_blank"
           rel="noopener noreferrer"
@@ -71,6 +78,7 @@ export default function RightSidebar() {
             </span>
           </div>
         </a>
+        </motion.div>
       ))}
     </aside>
   );

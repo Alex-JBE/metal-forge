@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
+import { motion } from "framer-motion";
 import Link from "next/link";
 import SubgenreSelector from "./SubgenreSelector";
 import { Language } from "./LanguageSelector";
@@ -311,8 +312,10 @@ export default function Generator({ language }: Props) {
           </div>
 
           {/* Generate button */}
-          <button
+          <motion.button
             ref={forgeBtnRef}
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
             onClick={handleGenerate}
             disabled={loading || !subgenre}
             className="forge-btn w-full py-3 font-metal-mania text-white uppercase tracking-widest transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
@@ -326,7 +329,7 @@ export default function Generator({ language }: Props) {
             onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = loading ? "#8a0000" : "#cc0000"; }}
           >
             {loading ? "FORGING…" : "FORGE"}
-          </button>
+          </motion.button>
 
           {/* Error */}
           {error && (
@@ -339,7 +342,12 @@ export default function Generator({ language }: Props) {
 
       {/* ── Output card ───────────────────────────────── */}
       {(output || loading) && (
-        <div style={{ ...CARD, marginBottom: "12px", overflow: "hidden" }}>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          style={{ ...CARD, marginBottom: "12px", overflow: "hidden" }}
+        >
           {/* Header */}
           <div
             className="flex items-center justify-between px-5 py-2.5"
@@ -444,7 +452,7 @@ export default function Generator({ language }: Props) {
               </p>
             </div>
           )}
-        </div>
+        </motion.div>
       )}
 
       {/* ── History ───────────────────────────────────── */}

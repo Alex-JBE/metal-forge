@@ -1,3 +1,7 @@
+"use client";
+
+import { motion } from "framer-motion";
+
 const GENERATIONS = [
   {
     genre: "Death Metal · Lyrics · EN",
@@ -40,8 +44,11 @@ export default function LeftSidebar() {
       </p>
 
       {GENERATIONS.map((g, i) => (
-        <div
+        <motion.div
           key={i}
+          initial={{ opacity: 0, x: -10 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: i * 0.08 }}
           style={{
             background: "#0d0d0d",
             border: "1px solid #1a1a1a",
@@ -73,7 +80,7 @@ export default function LeftSidebar() {
           >
             {g.text}
           </p>
-        </div>
+        </motion.div>
       ))}
     </aside>
   );

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
 import { Language } from "./LanguageSelector";
 
 const SLIDES = [
@@ -63,30 +64,42 @@ export default function SiteHeader({ language, onLanguageChange }: Props) {
           justifyContent: "center",
         }}
       >
-        <h1
-          style={{
-            fontFamily: "var(--font-metal-mania), serif",
-            fontSize: "72px",
-            color: "#fff",
-            textShadow: "0 0 50px rgba(200,0,0,0.8), 3px 3px 0 #550000",
-            lineHeight: "1",
-            margin: 0,
-          }}
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
         >
-          METAL FORGE
-        </h1>
-        <p
-          style={{
-            fontFamily: "var(--font-cinzel), serif",
-            fontSize: "9px",
-            letterSpacing: "0.3em",
-            color: "rgba(255,255,255,0.35)",
-            marginTop: "8px",
-            textTransform: "uppercase",
-          }}
+          <h1
+            style={{
+              fontFamily: "var(--font-metal-mania), serif",
+              fontSize: "72px",
+              color: "#fff",
+              textShadow: "0 0 50px rgba(200,0,0,0.8), 3px 3px 0 #550000",
+              lineHeight: "1",
+              margin: 0,
+            }}
+          >
+            METAL FORGE
+          </h1>
+        </motion.div>
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: "easeOut", delay: 0.3 }}
         >
-          AI-POWERED METAL CONTENT GENERATOR
-        </p>
+          <p
+            style={{
+              fontFamily: "var(--font-cinzel), serif",
+              fontSize: "9px",
+              letterSpacing: "0.3em",
+              color: "rgba(255,255,255,0.35)",
+              marginTop: "8px",
+              textTransform: "uppercase",
+            }}
+          >
+            AI-POWERED METAL CONTENT GENERATOR
+          </p>
+        </motion.div>
       </div>
 
       {/* Nav dots */}
