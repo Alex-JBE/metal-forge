@@ -145,10 +145,9 @@ export default function Generator({ lang, onResult, onGenreChange, onContentType
 
       {/* Content Type 2×2 */}
       <span style={label}>Content Type</span>
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '6px', width: '100%', maxWidth: '340px' }}>
+      <div style={{ display: 'flex', justifyContent: 'center', gap: '6px', flexWrap: 'wrap' }}>
         {CONTENT_TYPES.map(ct => (
-          <button key={ct} onClick={() => selectContentType(ct)}
-            style={{ ...pill(contentType === ct), textAlign: 'center' as const, justifySelf: 'stretch', padding: '7px 8px' }}>
+          <button key={ct} onClick={() => selectContentType(ct)} style={pill(contentType === ct)}>
             {ct}
           </button>
         ))}
