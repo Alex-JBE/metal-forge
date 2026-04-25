@@ -109,6 +109,40 @@ export default function Generator({ lang, onResult, onGenreChange, onContentType
     }
   }
 
+  const ACTION_BUTTON_STYLE: React.CSSProperties = {
+    padding: '8px 18px',
+    borderRadius: '999px',
+    border: '1px solid rgba(255,255,255,0.4)',
+    backgroundColor: 'rgba(0,0,0,0.9)',
+    color: '#fff',
+    fontSize: '11px',
+    letterSpacing: '0.16em',
+    textTransform: 'uppercase',
+    cursor: 'pointer',
+  };
+
+  const handleCopyLyrics = () => {
+    if (!lyricsText) return;
+    navigator.clipboard.writeText(lyricsText).catch(() => {});
+  };
+
+  const handleCopyMusic = () => {
+    if (!musicPromptText) return;
+    navigator.clipboard.writeText(musicPromptText).catch(() => {});
+  };
+
+  const handleSaveFullGeneration = () => {
+    if (!lyricsText && !musicPromptText) return;
+    const full = `LYRICS PROMPT\n\n${lyricsText || ''}\n\n---\n\nMUSIC PROMPT\n\n${musicPromptText || ''}`;
+    const blob = new Blob([full], { type: 'text/plain;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'metal-forge-generation.txt';
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
   function buildTags(g: string, ct: string, l: string): string[] {
     return [g, ct, `Lang:${l}`, 'Metal Forge'];
   }
@@ -272,6 +306,12 @@ export default function Generator({ lang, onResult, onGenreChange, onContentType
               {musicPromptText || '—'}
             </pre>
           </div>
+        </div>
+        </div>
+        <div style={{ maxWidth: '1200px', margin: '10px auto 0', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '16px', width: '100%' }}>
+          <button onClick={handleCopyLyrics} style={ACTION_BUTTON_STYLE}>Copy lyrics prompt</button>
+          <button onClick={handleCopyMusic} style={ACTION_BUTTON_STYLE}>Copy music prompt</button>
+          <button onClick={handleSaveFullGeneration} style={ACTION_BUTTON_STYLE}>Save full generation</button>
         </div>
         </div>
       )}
