@@ -48,6 +48,7 @@ export default function Generator({ lang, onResult, onGenreChange, onContentType
   const [loading, setLoading] = useState(false);
   const [activeTab, setActiveTab] = useState<'forge' | 'result'>('forge');
   const [lyricsText, setLyricsText] = useState('');
+  const [musicPromptText, setMusicPromptText] = useState('');
 
   function switchTab(tab: 'forge' | 'result') {
     setActiveTab(tab);
@@ -98,6 +99,7 @@ export default function Generator({ lang, onResult, onGenreChange, onContentType
       const musicPrompt = markerIdx !== -1 ? lyrics.slice(markerIdx + marker.length).trim() : '';
       const tags = buildTags(genre, contentType, lang);
       setLyricsText(lyricsOnly);
+      setMusicPromptText(musicPrompt);
       switchTab('result');
       onResult(lyricsOnly, musicPrompt, tags);
     } catch (err) {
@@ -215,17 +217,37 @@ export default function Generator({ lang, onResult, onGenreChange, onContentType
 
       {/* RESULT tab */}
       {activeTab === 'result' && lyricsText && (
-        <div style={{ maxWidth: '760px', width: '100%', margin: '0 auto' }}>
-          <pre style={{
-            fontFamily: 'Georgia, serif',
-            fontSize: '15px',
-            lineHeight: 1.85,
-            color: '#f0f0f0',
-            whiteSpace: 'pre-wrap',
-            wordBreak: 'break-word',
-          }}>
-            {lyricsText}
-          </pre>
+        <div style={{
+          maxWidth: '1200px',
+          margin: '40px auto 56px',
+          padding: '24px 32px',
+          background: 'rgba(0,0,0,0.7)',
+          borderRadius: '16px',
+          border: '1px solid rgba(255,255,255,0.12)',
+          display: 'grid',
+          gridTemplateColumns: '1.1fr 0.9fr',
+          gap: '32px',
+          maxHeight: '70vh',
+          overflow: 'auto',
+        }}>
+          {/* Lyrics column */}
+          <div>
+            <p style={{ fontFamily: 'Cinzel,serif', fontSize: '9px', letterSpacing: '0.25em', color: '#cc0000', textTransform: 'uppercase', marginBottom: '14px' }}>
+              Lyrics
+            </p>
+            <pre style={{ fontFamily: 'Georgia,serif', fontSize: '13px', lineHeight: 1.5, color: '#f0f0f0', whiteSpace: 'pre-wrap', wordBreak: 'break-word', margin: 0 }}>
+              {lyricsText}
+            </pre>
+          </div>
+          {/* Music Prompt column */}
+          <div>
+            <p style={{ fontFamily: 'Cinzel,serif', fontSize: '9px', letterSpacing: '0.25em', color: '#cc0000', textTransform: 'uppercase', marginBottom: '14px' }}>
+              Music Prompt
+            </p>
+            <pre style={{ fontFamily: 'Georgia,serif', fontSize: '13px', lineHeight: 1.5, color: '#d0d4d8', whiteSpace: 'pre-wrap', wordBreak: 'break-word', margin: 0 }}>
+              {musicPromptText || '—'}
+            </pre>
+          </div>
         </div>
       )}
 
