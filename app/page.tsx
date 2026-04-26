@@ -8,19 +8,18 @@ import RightSidebar from '@/components/RightSidebar';
 import SiteFooter from '@/components/SiteFooter';
 
 const SLIDES = [
-  '/images/001.jpg',
-  '/images/002.jpg',
-  '/images/003.jpg',
-  '/images/004.jpg',
-  '/images/005.jpg',
-  '/images/006.jpg',
-  '/images/007.jpg',
-  '/images/008.jpg',
-  '/images/009.jpg',
-  '/images/010.jpg',
-  '/images/011.jpg',
-  '/images/012.jpg',
-  '/images/013.jpg',
+  '/images/001_v2.jpg',
+  '/images/002_v2.jpg',
+  '/images/003_v2.jpg',
+  '/images/004_v2.jpg',
+  '/images/005_v2.jpg',
+  '/images/006_v2.jpg',
+  '/images/007_v2.jpg',
+  '/images/008_v2.jpg',
+  '/images/009_v2.jpg',
+  '/images/010_v2.jpg',
+  '/images/012_v2.jpg',
+  '/images/013_v2.jpg',
 ];
 
 export default function Home() {
