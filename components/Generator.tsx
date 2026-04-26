@@ -251,6 +251,7 @@ export default function Generator({ lang, onResult, onGenreChange, onContentType
 
       {/* RESULT tab */}
       {activeTab === 'result' && lyricsText && (
+        <>
         <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
         <div style={{
           width: '100%',
@@ -313,7 +314,7 @@ export default function Generator({ lang, onResult, onGenreChange, onContentType
           <button onClick={handleCopyMusic} style={ACTION_BUTTON_STYLE}>Copy music prompt</button>
           <button onClick={handleSaveFullGeneration} style={ACTION_BUTTON_STYLE}>Save full generation</button>
         </div>
-        </div>
+        </>
       )}
 
       {/* FORGE tab */}
