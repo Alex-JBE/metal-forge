@@ -184,74 +184,77 @@ export default function Generator({ lang, onResult, onGenreChange, onContentType
 
   const handleSavePdf = async () => {
     if (!lyricsText && !musicPromptText) return;
+    try {
+      const titleText = extractSongTitle(lyricsText);
+      const filename = sanitizeFilename(titleText);
 
-    const titleText = extractSongTitle(lyricsText);
-    const filename = sanitizeFilename(titleText);
+      const fontBytes = await fetch('/fonts/NotoSans-Regular.ttf').then(r => r.arrayBuffer());
 
-    const fontUrl = 'https://raw.githubusercontent.com/google/fonts/main/ofl/notosans/NotoSans-Regular.ttf';
-    const fontBytes = await fetch(fontUrl).then(r => r.arrayBuffer());
+      const pdfDoc = await PDFDocument.create();
+      pdfDoc.registerFontkit(fontkitLib as any);
+      const font = await pdfDoc.embedFont(fontBytes);
 
-    const pdfDoc = await PDFDocument.create();
-    pdfDoc.registerFontkit(fontkitLib as any);
-    const font = await pdfDoc.embedFont(fontBytes);
+      const W = 595, H = 842, M = 60;
+      const contentWidth = W - M * 2;
+      const startY = H - M;
+      const bottomMargin = M;
 
-    const W = 595, H = 842, M = 60;
-    const contentWidth = W - M * 2;
-    const startY = H - M;
-    const bottomMargin = M;
+      let page = pdfDoc.addPage([W, H]);
+      let y = startY;
 
-    let page = pdfDoc.addPage([W, H]);
-    let y = startY;
-
-    function putLine(text: string, size: number, color: Color = rgb(0.1, 0.1, 0.1)): void {
-      const lh = size * 1.5;
-      const sp = ensurePageSpace(pdfDoc, page, y, lh, bottomMargin, startY);
-      page = sp.page;
-      y = sp.y;
-      page.drawText(text, { x: M, y: y - size, font, size, color });
-      y -= lh;
-    }
-
-    putLine(titleText, 18, rgb(0.8, 0, 0));
-    y -= 8;
-
-    const sections: [string, string][] = [
-      ['LYRICS', lyricsText],
-      ['MUSIC PROMPT', musicPromptText],
-    ];
-
-    for (const [heading, body] of sections) {
-      if (!body.trim()) continue;
-      y -= 12;
-      putLine(heading, 12, rgb(0.8, 0, 0));
-      y -= 4;
-      for (const line of wrapText(body, font, 10, contentWidth)) {
-        putLine(line || ' ', 10);
+      function putLine(text: string, size: number, color: Color = rgb(0.1, 0.1, 0.1)): void {
+        const lh = size * 1.5;
+        const sp = ensurePageSpace(pdfDoc, page, y, lh, bottomMargin, startY);
+        page = sp.page;
+        y = sp.y;
+        page.drawText(text, { x: M, y: y - size, font, size, color });
+        y -= lh;
       }
+
+      putLine(titleText, 18, rgb(0.8, 0, 0));
+      y -= 8;
+
+      const sections: [string, string][] = [
+        ['LYRICS', lyricsText],
+        ['MUSIC PROMPT', musicPromptText],
+      ];
+
+      for (const [heading, body] of sections) {
+        if (!body.trim()) continue;
+        y -= 12;
+        putLine(heading, 12, rgb(0.8, 0, 0));
+        y -= 4;
+        for (const line of wrapText(body, font, 10, contentWidth)) {
+          putLine(line || ' ', 10);
+        }
+      }
+
+      const pdfBytes = await pdfDoc.save();
+
+      if (typeof window !== 'undefined' && 'showSaveFilePicker' in window) {
+        try {
+          const handle = await (window as any).showSaveFilePicker({
+            suggestedName: filename,
+            types: [{ description: 'PDF Document', accept: { 'application/pdf': ['.pdf'] } }],
+          });
+          const writable = await handle.createWritable();
+          await writable.write(pdfBytes);
+          await writable.close();
+          return;
+        } catch { /* user cancelled or API unavailable */ }
+      }
+
+      const blob = new Blob([new Uint8Array(pdfBytes)], { type: 'application/pdf' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      a.click();
+      URL.revokeObjectURL(url);
+    } catch (e) {
+      console.error('PDF error', e);
+      alert('PDF error: ' + (e instanceof Error ? e.message : String(e)));
     }
-
-    const pdfBytes = await pdfDoc.save();
-
-    if (typeof window !== 'undefined' && 'showSaveFilePicker' in window) {
-      try {
-        const handle = await (window as any).showSaveFilePicker({
-          suggestedName: filename,
-          types: [{ description: 'PDF Document', accept: { 'application/pdf': ['.pdf'] } }],
-        });
-        const writable = await handle.createWritable();
-        await writable.write(pdfBytes);
-        await writable.close();
-        return;
-      } catch { /* user cancelled or API unavailable */ }
-    }
-
-    const blob = new Blob([new Uint8Array(pdfBytes)], { type: 'application/pdf' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = filename;
-    a.click();
-    URL.revokeObjectURL(url);
   };
 
   const handleSaveFullGeneration = () => {
