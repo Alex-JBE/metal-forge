@@ -261,7 +261,11 @@ export default function Generator({ lang, onResult, onGenreChange, onContentType
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'metal-forge-generation.txt';
+    const titleBase = extractSongTitle(lyricsText)
+      .toLowerCase()
+      .replace(/\s+/g, '_')
+      .replace(/[^\p{L}\p{N}_-]/gu, '') || 'metal_forge_generation';
+    a.download = titleBase + '.txt';
     a.click();
     URL.revokeObjectURL(url);
   };

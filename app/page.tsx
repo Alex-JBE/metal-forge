@@ -86,7 +86,14 @@ export default function Home() {
               onResult={(lyrics, prompt, t) => { setLyricsResult(lyrics); setMusicPrompt(prompt); setTags(t); }}
               onGenreChange={setGenre}
               onContentTypeChange={setContentType}
-              onTabChange={setActiveTab}
+              onTabChange={(tab) => {
+                setActiveTab(tab);
+                if (tab === 'forge') {
+                  setLyricsResult('');
+                  setMusicPrompt('');
+                  setTags([]);
+                }
+              }}
             />
           </div>
 
