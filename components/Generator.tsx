@@ -233,19 +233,6 @@ export default function Generator({ lang, onResult, onGenreChange, onContentType
 
       const pdfBytes = await pdfDoc.save();
 
-      if (typeof window !== 'undefined' && 'showSaveFilePicker' in window) {
-        try {
-          const handle = await (window as any).showSaveFilePicker({
-            suggestedName: filename,
-            types: [{ description: 'PDF Document', accept: { 'application/pdf': ['.pdf'] } }],
-          });
-          const writable = await handle.createWritable();
-          await writable.write(pdfBytes);
-          await writable.close();
-          return;
-        } catch { /* user cancelled or API unavailable */ }
-      }
-
       const blob = new Blob([new Uint8Array(pdfBytes)], { type: 'application/pdf' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
