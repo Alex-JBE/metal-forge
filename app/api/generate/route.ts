@@ -3,6 +3,8 @@ import { NextRequest } from "next/server";
 import fs from "fs";
 import path from "path";
 
+export const runtime = 'nodejs';
+
 const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 
 const METAL_SYSTEM_PROMPT = fs.readFileSync(
