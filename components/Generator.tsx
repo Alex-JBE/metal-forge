@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { PDFDocument, rgb, PDFFont, PDFPage, Color } from 'pdf-lib';
-import * as fontkitLib from '@pdf-lib/fontkit';
+import fontkit from '@pdf-lib/fontkit';
 
 function extractSongTitle(text: string): string {
   const bold = text.match(/\*\*(.+?)\*\*/);
@@ -193,7 +193,7 @@ export default function Generator({ lang, onResult, onGenreChange, onContentType
       const fontBytes = await fetch('/fonts/NotoSans-Regular.ttf').then(r => r.arrayBuffer());
 
       const pdfDoc = await PDFDocument.create();
-      pdfDoc.registerFontkit(fontkitLib as any);
+      pdfDoc.registerFontkit(fontkit);
       const font = await pdfDoc.embedFont(fontBytes);
 
       const W = 595, H = 842, M = 60;
