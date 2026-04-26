@@ -183,6 +183,8 @@ export default function Generator({ lang, onResult, onGenreChange, onContentType
   };
 
   const handleSavePdf = async () => {
+    console.log('handleSavePdf called', { lyricsText, musicPromptText });
+    alert('PDF starting...');
     if (!lyricsText && !musicPromptText) return;
     try {
       const titleText = extractSongTitle(lyricsText);
