@@ -2,6 +2,57 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
+import { PDFDocument, rgb, PDFFont, PDFPage, Color } from 'pdf-lib';
+import * as fontkitLib from '@pdf-lib/fontkit';
+
+function extractSongTitle(text: string): string {
+  const bold = text.match(/\*\*(.+?)\*\*/);
+  if (bold) return bold[1].trim();
+  const first = text.split('\n').find(l => l.trim().length > 0);
+  return first ? first.trim() : 'metal_forge_generation';
+}
+
+function sanitizeFilename(title: string): string {
+  const s = title
+    .toLowerCase()
+    .replace(/\s+/g, '_')
+    .replace(/[^\p{L}\p{N}_-]/gu, '');
+  return (s || 'metal_forge_generation') + '.pdf';
+}
+
+function wrapText(text: string, font: PDFFont, fontSize: number, maxWidth: number): string[] {
+  const lines: string[] = [];
+  for (const raw of text.split('\n')) {
+    if (!raw.trim()) { lines.push(''); continue; }
+    const words = raw.split(' ');
+    let cur = '';
+    for (const w of words) {
+      const candidate = cur ? `${cur} ${w}` : w;
+      if (font.widthOfTextAtSize(candidate, fontSize) <= maxWidth) {
+        cur = candidate;
+      } else {
+        if (cur) lines.push(cur);
+        cur = w;
+      }
+    }
+    if (cur) lines.push(cur);
+  }
+  return lines;
+}
+
+function ensurePageSpace(
+  pdfDoc: PDFDocument,
+  page: PDFPage,
+  y: number,
+  needed: number,
+  bottomMargin: number,
+  topY: number,
+): { page: PDFPage; y: number } {
+  if (y - needed < bottomMargin) {
+    return { page: pdfDoc.addPage([595, 842]), y: topY };
+  }
+  return { page, y };
+}
 
 const GENRES = [
   'Death Metal','Old School Death','Brutal Death','Technical Death',
@@ -129,6 +180,78 @@ export default function Generator({ lang, onResult, onGenreChange, onContentType
   const handleCopyMusic = () => {
     if (!musicPromptText) return;
     navigator.clipboard.writeText(musicPromptText).catch(() => {});
+  };
+
+  const handleSavePdf = async () => {
+    if (!lyricsText && !musicPromptText) return;
+
+    const titleText = extractSongTitle(lyricsText);
+    const filename = sanitizeFilename(titleText);
+
+    const fontUrl = 'https://raw.githubusercontent.com/google/fonts/main/ofl/notosans/NotoSans-Regular.ttf';
+    const fontBytes = await fetch(fontUrl).then(r => r.arrayBuffer());
+
+    const pdfDoc = await PDFDocument.create();
+    pdfDoc.registerFontkit(fontkitLib as any);
+    const font = await pdfDoc.embedFont(fontBytes);
+
+    const W = 595, H = 842, M = 60;
+    const contentWidth = W - M * 2;
+    const startY = H - M;
+    const bottomMargin = M;
+
+    let page = pdfDoc.addPage([W, H]);
+    let y = startY;
+
+    function putLine(text: string, size: number, color: Color = rgb(0.1, 0.1, 0.1)): void {
+      const lh = size * 1.5;
+      const sp = ensurePageSpace(pdfDoc, page, y, lh, bottomMargin, startY);
+      page = sp.page;
+      y = sp.y;
+      page.drawText(text, { x: M, y: y - size, font, size, color });
+      y -= lh;
+    }
+
+    putLine(titleText, 18, rgb(0.8, 0, 0));
+    y -= 8;
+
+    const sections: [string, string][] = [
+      ['LYRICS', lyricsText],
+      ['MUSIC PROMPT', musicPromptText],
+    ];
+
+    for (const [heading, body] of sections) {
+      if (!body.trim()) continue;
+      y -= 12;
+      putLine(heading, 12, rgb(0.8, 0, 0));
+      y -= 4;
+      for (const line of wrapText(body, font, 10, contentWidth)) {
+        putLine(line || ' ', 10);
+      }
+    }
+
+    const pdfBytes = await pdfDoc.save();
+
+    if (typeof window !== 'undefined' && 'showSaveFilePicker' in window) {
+      try {
+        const handle = await (window as any).showSaveFilePicker({
+          suggestedName: filename,
+          types: [{ description: 'PDF Document', accept: { 'application/pdf': ['.pdf'] } }],
+        });
+        const writable = await handle.createWritable();
+        await writable.write(pdfBytes);
+        await writable.close();
+        return;
+      } catch { /* user cancelled or API unavailable */ }
+    }
+
+    const blob = new Blob([new Uint8Array(pdfBytes)], { type: 'application/pdf' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    a.click();
+    URL.revokeObjectURL(url);
   };
 
   const handleSaveFullGeneration = () => {
@@ -309,10 +432,11 @@ export default function Generator({ lang, onResult, onGenreChange, onContentType
           </div>
         </div>
         </div>
-        <div style={{ maxWidth: '1200px', margin: '10px auto 0', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '16px', width: '100%' }}>
-          <button onClick={handleCopyLyrics} style={ACTION_BUTTON_STYLE}>Copy lyrics prompt</button>
-          <button onClick={handleCopyMusic} style={ACTION_BUTTON_STYLE}>Copy music prompt</button>
-          <button onClick={handleSaveFullGeneration} style={ACTION_BUTTON_STYLE}>Save full generation</button>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr auto auto 1fr', alignItems: 'center', gap: '12px', width: '100%', maxWidth: '1200px', margin: '10px auto 0' }}>
+          <button onClick={handleCopyLyrics} style={{ ...ACTION_BUTTON_STYLE, justifySelf: 'start' }}>Copy lyrics prompt</button>
+          <button onClick={handleSaveFullGeneration} style={{ ...ACTION_BUTTON_STYLE, justifySelf: 'center' }}>Save full generation</button>
+          <button onClick={handleSavePdf} style={{ ...ACTION_BUTTON_STYLE, justifySelf: 'center' }}>Save as PDF</button>
+          <button onClick={handleCopyMusic} style={{ ...ACTION_BUTTON_STYLE, justifySelf: 'end' }}>Copy music prompt</button>
         </div>
         </>
       )}
